@@ -7,3 +7,4 @@
 - [`:h packages`](https://neovim.io/doc/user/repeat.html#packages)
 - [`packer.nvim`](https://github.com/wbthomason/packer.nvim)
 - [`nvim-lsp-installer`](https://github.com/williamboman/nvim-lsp-installer)
+- [`dein.vim`](https://github.com/Shougo/dein.vim)
