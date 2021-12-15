@@ -33,7 +33,7 @@ let NERDTrimTrailingWhitespace = 1
 
 你可以在
 [此处](https://github.com/preservim/nerdcommenter/blob/master/autoload/nerdcommenter.vim)
-查看所有默认文件的注释符号。
+查看所有文件的默认注释符号。
 
 其他同类型的插件：
 - [tpope/vim-commentary](https://github.com/tpope/vim-commentary)
