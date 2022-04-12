@@ -11,6 +11,8 @@
     - [treesitter](./nvim/treesitter.md)
     - [scrollbar](./nvim/scrollbar.md)
     - [statusline](./nvim/statusline.md)
+    - [Rust 相关](./nvim/rust-related.md)
+    - [todo](./nvim/todo.md)
     - [参考](./nvim/ref.md)
 - [neovim0.4 / vim8 插件](./vim.md)
     - [auto-pairs](./vim/auto-pairs.md)
@@ -30,4 +32,5 @@
 
 - [GUI](./GUI.md)
 - [Rust binding](./Rust-binding.md)
+    - [channel](./Rust/channel.md)
 
