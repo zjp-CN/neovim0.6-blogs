@@ -28,6 +28,9 @@
     - [多光标模式](./mode/visual-multi.md)
     - [行内搜索模式](./mode/clever-f.md)
 
+- [调试](./dbg.md)
+    - [基本概念](./dbg/notions.md)
+
 - [TODO](./TODO.md)
 
 - [GUI](./GUI.md)
