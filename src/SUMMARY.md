@@ -12,6 +12,7 @@
     - [scrollbar](./nvim/scrollbar.md)
     - [statusline](./nvim/statusline.md)
     - [Rust 相关](./nvim/rust-related.md)
+        - [bacon：监视项目](./nvim/rust/bacon.md)
     - [todo](./nvim/todo.md)
     - [参考](./nvim/ref.md)
 - [neovim0.4 / vim8 插件](./vim.md)
