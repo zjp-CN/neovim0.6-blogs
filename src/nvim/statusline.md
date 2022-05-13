@@ -17,7 +17,7 @@
 [lightline](https://github.com/itchyny/lightline.vim)。
 
 其中，笔者个人体验：
-- lualine.nvim 配置简单，功能丰富，主题美:Telescope lsp_code_actions观，强烈推荐
+- lualine.nvim 配置简单，功能丰富，主题美观，强烈推荐
 - lsp-status.nvim 配置繁琐，而且配置之后不仅没效，还影响其他 lsp 插件
 - vim-airline 在用 neovim0.4 时使用过一会，体验感受一般，虽然它的名声很大，但在我的机器上明显增加 CPU 占用
 
