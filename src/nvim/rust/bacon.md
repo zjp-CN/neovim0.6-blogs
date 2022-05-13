@@ -29,12 +29,12 @@ watch = ["tests", "benches", "examples"]
 
 [^all-targets]: 即 `cargo check --lib --bins --tests --benches --examples`。
 
-你可以订制 jos：把你常用的运行命令和监视目录放到项目根目录的 `bacon.toml` 中即可。
+你可以订制 job：把你常用的运行命令和监视目录放到项目根目录的 `bacon.toml` 中即可。
 
 ![](https://github.com/Canop/bacon/blob/main/doc/test.png?raw=true)
 
-这种模式的监视工具或许很多，但它的亮点在于完全考虑 cargo 命令，对 cargo
-的信息输出做了二次封装，从而提供更人性化的功能：
+作为一个通用的命令行工具，这种模式的监视工具或许有很多，但它的亮点在于完全考虑 cargo 
+命令，对 cargo 的信息输出做了二次封装，从而提供更人性化的功能：
 * 永远保持统计信息到第一行：这意味着调整终端大小和缩放之后会重新绘制所有内容自适应
 * 折叠切换：当你只需要概览时，可按 `s` 只显示每条信息的原因和源码位置
 * 换行切换：有很多长文本内容时，可按 `w` 不换行
@@ -44,8 +44,9 @@ watch = ["tests", "benches", "examples"]
 ![](https://github.com/Canop/nvim-bacon/blob/main/doc/list.png?raw=true)
 
 在 Vim 的“旧时代”，你可以使用 `:!cargo check | copen` 命令来打开 quickfix
-窗口，逐一修复和跳转下一个错误。但我更倾向于使用 popup/floating window
-来进行临时性的操作，而把常驻的终端窗口放置在一旁。比如：
+窗口，逐一修复和跳转下一个错误。
+
+但我更倾向于使用 `:BaconList` 打开 popup window 来进行临时性的操作（或者 `:BaconNext` `:BaconPrevious` 直接跳转），而把常驻的终端窗口放置在一旁（因为 bacon 需要终端）。比如：
 
 <img src="../../pic/nvim-bacon.gif" height="200"/><img src="../../pic/bacon.gif" height="200"/>
 请单击右键“新标签页打开图片”来查看动图（注意：录制时为竖屏，所以这个图很长）。
