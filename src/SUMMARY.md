@@ -13,6 +13,8 @@
     - [statusline](./nvim/statusline.md)
     - [Rust 相关](./nvim/rust-related.md)
         - [bacon：监视项目](./nvim/rust/bacon.md)
+    - [IDE](./IDE.md)
+        - [litee](./IDE/litee.md)
     - [todo](./nvim/todo.md)
     - [其他](./nvim/ref.md)
 - [neovim0.4 / vim8 插件](./vim.md)
