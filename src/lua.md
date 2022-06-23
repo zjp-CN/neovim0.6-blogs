@@ -10,3 +10,8 @@
 ## nvim 中的 lua 开发插件
 
 * <https://github.com/rafcamlet/nvim-luapad>: Interactive real time neovim scratchpad for embedded lua engine - type and watch! ![](https://github.com/rafcamlet/nvim-luapad/raw/master/gifs/luapad_colors.gif)
+
+## 使用 lua 编写插件
+
+* [(Rafał, 2022.02) How to write neovim plugins in Lua](https://www.2n.pl/blog/how-to-write-neovim-plugins-in-lua)
+* [(Rafał, 2022.06) How to make UI for neovim plugins in Lua](https://www.2n.pl/blog/how-to-make-ui-for-neovim-plugins-in-lua)
