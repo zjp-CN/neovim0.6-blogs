@@ -1,0 +1,872 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="sidebar-visible no-js ayu">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>基本概念 - neovim0.6-blogs</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/pagetoc.css">
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "ayu";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> 说明</a></li><li class="chapter-item expanded "><a href="../nvim.html"><strong aria-hidden="true">2.</strong> neovim0.6 插件</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../nvim/packer.html"><strong aria-hidden="true">2.1.</strong> 包管理器</a></li><li class="chapter-item expanded "><a href="../nvim/lsp.html"><strong aria-hidden="true">2.2.</strong> lsp</a></li><li class="chapter-item expanded "><a href="../nvim/cmp.html"><strong aria-hidden="true">2.3.</strong> cmp</a></li><li class="chapter-item expanded "><a href="../nvim/git.html"><strong aria-hidden="true">2.4.</strong> git</a></li><li class="chapter-item expanded "><a href="../nvim/telescope.html"><strong aria-hidden="true">2.5.</strong> telescope</a></li><li class="chapter-item expanded "><a href="../nvim/treesitter.html"><strong aria-hidden="true">2.6.</strong> treesitter</a></li><li class="chapter-item expanded "><a href="../nvim/scrollbar.html"><strong aria-hidden="true">2.7.</strong> scrollbar</a></li><li class="chapter-item expanded "><a href="../nvim/statusline.html"><strong aria-hidden="true">2.8.</strong> statusline</a></li><li class="chapter-item expanded "><a href="../nvim/rust-related.html"><strong aria-hidden="true">2.9.</strong> Rust 相关</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../nvim/rust/bacon.html"><strong aria-hidden="true">2.9.1.</strong> bacon：监视项目</a></li></ol></li><li class="chapter-item expanded "><a href="../IDE.html"><strong aria-hidden="true">2.10.</strong> IDE</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../IDE/litee.html"><strong aria-hidden="true">2.10.1.</strong> litee</a></li></ol></li><li class="chapter-item expanded "><a href="../nvim/todo.html"><strong aria-hidden="true">2.11.</strong> todo</a></li><li class="chapter-item expanded "><a href="../nvim/ref.html"><strong aria-hidden="true">2.12.</strong> 其他</a></li></ol></li><li class="chapter-item expanded "><a href="../vim.html"><strong aria-hidden="true">3.</strong> neovim0.4 / vim8 插件</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../vim/auto-pairs.html"><strong aria-hidden="true">3.1.</strong> auto-pairs</a></li><li class="chapter-item expanded "><a href="../vim/surround.html"><strong aria-hidden="true">3.2.</strong> surround</a></li><li class="chapter-item expanded "><a href="../vim/comment.html"><strong aria-hidden="true">3.3.</strong> comment</a></li><li class="chapter-item expanded "><a href="../vim/markdown.html"><strong aria-hidden="true">3.4.</strong> markdown</a></li><li class="chapter-item expanded "><a href="../vim/css-color.html"><strong aria-hidden="true">3.5.</strong> css-color</a></li><li class="chapter-item expanded "><a href="../vim/ref.html"><strong aria-hidden="true">3.6.</strong> 其他</a></li></ol></li><li class="chapter-item expanded "><a href="../mode.html"><strong aria-hidden="true">4.</strong> 模式</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../mode/easy-align.html"><strong aria-hidden="true">4.1.</strong> 对齐模式</a></li><li class="chapter-item expanded "><a href="../mode/table.html"><strong aria-hidden="true">4.2.</strong> 表格模式</a></li><li class="chapter-item expanded "><a href="../mode/visual-multi.html"><strong aria-hidden="true">4.3.</strong> 多光标模式</a></li><li class="chapter-item expanded "><a href="../mode/clever-f.html"><strong aria-hidden="true">4.4.</strong> 行内搜索模式</a></li></ol></li><li class="chapter-item expanded "><a href="../dbg.html"><strong aria-hidden="true">5.</strong> 调试</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../dbg/notions.html" class="active"><strong aria-hidden="true">5.1.</strong> 基本概念</a></li></ol></li><li class="chapter-item expanded "><a href="../TODO.html"><strong aria-hidden="true">6.</strong> TODO</a></li><li class="chapter-item expanded "><a href="../GUI.html"><strong aria-hidden="true">7.</strong> GUI</a></li><li class="chapter-item expanded "><a href="../Rust-binding.html"><strong aria-hidden="true">8.</strong> Rust binding</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Rust/channel.html"><strong aria-hidden="true">8.1.</strong> channel</a></li></ol></li><li class="chapter-item expanded "><a href="../lua.html"><strong aria-hidden="true">9.</strong> lua</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu (default)</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">neovim0.6-blogs</h1>
+
+                    <div class="right-buttons">
+                        <a href="https://github.com/zjp-CN/neovim0.6-blogs" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <h1 id="基本概念-gdb"><a class="header" href="#基本概念-gdb">基本概念 (GDB)</a></h1>
+<ul>
+<li><a href="https://www.sourceware.org/gdb/documentation/">https://www.sourceware.org/gdb/documentation/</a></li>
+</ul>
+<h2 id="stack-frames"><a class="header" href="#stack-frames">Stack Frames</a></h2>
+<ul>
+<li><a href="https://sourceware.org/gdb/current/onlinedocs/gdb/Frames.html#Frames">Stack Frames</a> 指分割调用栈 (call stack) 的连续区域</li>
+<li>与一次函数调用的数据相关联：
+<ul>
+<li>每调用一次函数，就会产生一个新的 frame<sup class="footnote-reference"><a href="#fomit-frame-pointer">1</a></sup></li>
+<li>每当函数返回，就会消除这个函数的 frame</li>
+<li>关联的数据包括：函数参数、函数内的局部变量、函数执行的地址</li>
+</ul>
+</li>
+<li>根据地址来标识 frame：每个 frame 存储了许多字节，每个字节都有各自的地址</li>
+<li>函数最初执行时只有一个 frame，所以 main 函数被称作 initial frame 或者 outermost frame</li>
+<li>GDB 标记 frame 的规则：
+<ul>
+<li>用数字来描述每个 frame 所处的层级，这个数字被称作 frame number 或者 frame level</li>
+<li>0 表示最内层 frame：也就是该 frame 最后执行的函数调用</li>
+<li>1 表示调用 frame 0 的 frame</li>
+<li>以此类推：frame N+1 调用 frame N</li>
+<li>GDB 的命令就是使用这些数字来指定 frame</li>
+<li>函数执行的顺序与这组数字所描述的相反：对于 frame 0-N，实际按照 N-0 的顺序进行函数调用</li>
+</ul>
+</li>
+</ul>
+<div class="footnote-definition" id="fomit-frame-pointer"><sup class="footnote-definition-label">1</sup>
+<p>并不是所有的函数调用都会产生 frame pointer，比如
+<a href="https://stackoverflow.com/questions/14666665/trying-to-understand-gcc-option-fomit-frame-pointer">stackoverflow: Trying to understand gcc option -fomit-frame-pointer</a></p>
+</div>
+<h2 id="backtrace"><a class="header" href="#backtrace">Backtrace</a></h2>
+<ul>
+<li>回溯 (<a href="https://sourceware.org/gdb/current/onlinedocs/gdb/Backtrace.html#Backtrace">backtrace</a>) 是程序如何到达某个位置的摘要：
+<ul>
+<li>每行显示一个 frame</li>
+<li>显示多个 frames 时，从当前执行的 frame 开始（frame 0），然后是它的调用者（frame 1），然后在 stack 上堆叠起来</li>
+</ul>
+</li>
+<li>打印整个 stack 上的 frames 的命令是 <code>backtrace</code> （或者简写 <code>bt</code>）</li>
+</ul>
+<h3 id="基本命令"><a class="header" href="#基本命令">基本命令</a></h3>
+<p><code>bt [option]… [qualifier]… [count]</code></p>
+<table><thead><tr><th>参数</th><th>类型</th><th>说明</th></tr></thead><tbody>
+<tr><td><code>-full</code></td><td>option</td><td>打印整个 stack 上的 frames，并且每个 frame 下显示其局部变量</td></tr>
+<tr><td><code>-no-filters</code></td><td>option</td><td>不运行 python frame filters</td></tr>
+<tr><td><code>-hide</code></td><td>option</td><td>不打印 python filters 所省略的 frames</td></tr>
+<tr><td><code>full</code></td><td>qualifier</td><td>同 <code>-full</code></td></tr>
+<tr><td><code>no-filters</code></td><td>qualifier</td><td>同 <code>-no-filters</code></td></tr>
+<tr><td><code>hide</code></td><td>qualifier</td><td>同 <code>-hide</code></td></tr>
+<tr><td><code>n</code></td><td>count</td><td>打印最内层的 n 个 frames 信息（即编号 0 到 n-1）</td></tr>
+<tr><td><code>-n</code></td><td>count</td><td>打印最外层的 n 个 frames 信息（即倒数 n 个 frames）</td></tr>
+</tbody></table>
+<p>例子：<code>bt full 3</code> 表示打印整个 stack 上的 0、1、2 frame，并且每个 frame 下显示其局部变量</p>
+<pre><code class="language-text">(gdb) bt -full full
+#0  std::sys_common::backtrace::__rust_begin_short_backtrace&lt;fn(), ()&gt; (f=0x55555555cc80 &lt;hi::main&gt;) at /rust/rust/library/std/src/sys_common/backtrace.rs:125
+        result = ()
+#1  0x000055555555c6f1 in std::rt::lang_start::{closure#0}&lt;()&gt; () at /rust/rust/library/std/src/rt.rs:145
+        main = 0x55555555cc80 &lt;hi::main&gt;
+#2  0x00005555555606ae in std::panicking::try ()
+No symbol table info available.
+</code></pre>
+<p><code>#0</code> 表示当前程序停止在源代码的某处，比如这里停在了 backtrace.rs 文件的第 125 行。</p>
+<p>如果程序是使用优化编译的，而且在调用后从未使用过传递给函数的参数，那么某些编译器将优化掉这些参数。</p>
+<p>此类优化生成通过寄存器传递参数的代码，但不会将这些参数存储在 frame 中。GDB 无法在 frame 中显示这些参数。未保存在其 frame 中的参数可能显示为 <code>optimized out</code>。</p>
+<p>如果需要显示此类优化输出参数的值，请从相关变量中推断出该值，或者在不进行优化的情况下重新编译。</p>
+<h3 id="相关设置"><a class="header" href="#相关设置">相关设置</a></h3>
+<table><thead><tr><th>类型</th><th>命令</th><th>说明</th></tr></thead><tbody>
+<tr><td>past-main</td><td><code>set backtrace past-main</code> 或者 <code>set backtrace past-main on</code></td><td>遇到入口函数（比如 main）时不停止</td></tr>
+<tr><td>past-main</td><td><code>set backtrace past-main off</code> （这是默认行为）</td><td>遇到入口函数（比如 main）时停止</td></tr>
+<tr><td>past-main</td><td><code>show backtrace past-main</code></td><td>显示遇到入口函数的行为（off/on）</td></tr>
+<tr><td>past-entry</td><td><code>set backtrace past-entry</code> 或者 <code>set backtrace past-entry on</code></td><td>遇到程序内部的入口函数时不停止</td></tr>
+<tr><td>past-entry</td><td><code>set backtrace past-entry off</code> （这是默认行为）</td><td>遇到程序内部的入口函数时停止</td></tr>
+<tr><td>past-entry</td><td><code>show backtrace past-entry</code></td><td>显示遇到程序内部的入口函数的行为（off/on）</td></tr>
+<tr><td>limit</td><td><code>set backtrace limit n</code></td><td>最多展示 n 个 frames</td></tr>
+<tr><td>limit</td><td><code>set backtrace limit 0</code> 或者 <code>set backtrace limit unlimited</code></td><td>不限制展示 frames 的个数（这是默认行为）</td></tr>
+<tr><td>limit</td><td><code>show backtrace limit</code></td><td>展示 frames 的个数限制</td></tr>
+<tr><td>filename-display</td><td><code>set filename-display</code> 或者 <code>set filename-display relative</code></td><td>以相对路径展示源码文件名（这是默认行为）</td></tr>
+<tr><td>filename-display</td><td><code>set filename-display absolute</code></td><td>以绝对路径展示源码文件名</td></tr>
+<tr><td>filename-display</td><td><code>set filename-display basename</code></td><td>以基本名称展示源码文件名</td></tr>
+<tr><td>filename-display</td><td><code>show filename-display</code></td><td>当前展示源码文件名的方式</td></tr>
+</tbody></table>
+<p>视频：</p>
+<ul>
+<li><a href="https://www.raywenderlich.com/2426-video-tutorial-using-lldb-in-ios-part-3-backtraces-threads-and-frames">Video Tutorial: Using LLDB in iOS Part 3: Backtraces, Threads, and Frames</a></li>
+</ul>
+<h2 id="select"><a class="header" href="#select">select</a></h2>
+<p><a href="https://sourceware.org/gdb/current/onlinedocs/gdb/Selection.html#Selection">选择</a>当前 stack 上的一个 frame，以下 <code>f</code> 都可以换成 <code>frame</code>。</p>
+<h3 id="基本命令-1"><a class="header" href="#基本命令-1">基本命令</a></h3>
+<table><thead><tr><th>命令<sup class="footnote-reference"><a href="#frame-selection-spec">2</a></sup></th><th>说明</th></tr></thead><tbody>
+<tr><td><code>f n</code> 或者 <code>f level n</code></td><td>选择 #n frame；不提供 n 时，则显示当前 frame</td></tr>
+<tr><td><code>f address stack-address</code></td><td>选择某个地址的 frame</td></tr>
+<tr><td><code>f function function-name</code></td><td>选择某函数名的 frame，多条情况时选择最内层（数字最小）的 frame</td></tr>
+<tr><td><code>f view stack-address [ pc-addr ]</code></td><td>查看当前 GDB backtrace 之外的 frame</td></tr>
+<tr><td><code>up n</code></td><td>如果当前处在 #m，则选择第 #m+n；不提供 n 时，则选择第 #m+1；m+n 超过最大级别时，选择最大级别</td></tr>
+<tr><td><code>down n</code></td><td>如果当前处在 #m，则选择第 #m-n；不提供 n 时，则选择第 #m-1；m-n 低于最低级别时，选择 #0</td></tr>
+</tbody></table>
+<div class="footnote-definition" id="frame-selection-spec"><sup class="footnote-definition-label">2</sup>
+<p>前四行形式为 <code>f [ frame-selection-spec ]</code></p>
+</div>
+<p>使用这些选择命令之后，会打印被选中的 frame 的两行信息。比如：</p>
+<pre><code class="language-text">#0  hi::main () at src/main.rs:2
+2           let a = vec![12];
+</code></pre>
+<p>当你不需要自动打印信息时，可以使用 <code>select-frame</code>、<code>up-silentl</code>、<code>down-silently</code> 来代替 <code>f</code>、<code>up</code>、<code>down</code>。</p>
+<pre><code class="language-text">#0   -&gt; innermost
+...
+#m-n -&gt; down n | f m-n
+...
+#m-1 -&gt; down   | f m-1
+
+#m   -&gt; f
+
+#m+1 -&gt; up
+...
+#m+n -&gt; up n   | f m+n
+...
+#max -&gt; outermost
+</code></pre>
+<h3 id="查看信息"><a class="header" href="#查看信息">查看信息</a></h3>
+<p>选择 frame 之后，你可以使用以下命令查看它的<a href="https://sourceware.org/gdb/current/onlinedocs/gdb/Frame-Info.html#Frame-Info">信息</a>：</p>
+<table><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody>
+<tr><td><code>f</code></td><td>显示当前 frame 的两行信息</td></tr>
+<tr><td><code>info f</code></td><td>显示当前 frame 的具体信息</td></tr>
+<tr><td><code>info f [ frame-selection-spec ]</code></td><td>显示指定 frame 的具体信息（但不改变被选择的 frame）</td></tr>
+<tr><td><code>list</code></td><td>打印以执行点为中心的 10 行源码</td></tr>
+<tr><td><code>info args [-q]</code></td><td>打印所选 frame 的参数，每一个都在单独的行上；可选的 <code>-q</code> 代表禁止打印头信息</td></tr>
+<tr><td><code>info args [-q] [-t type_regexp] [regexp]</code></td><td>如果提供 regexp，则只打印名称与正则表达式 regexp 相匹配的参数；也可以提供类型正则表达式；当两者都提供时，必须都满足才匹配显示</td></tr>
+<tr><td><code>info locals [-q]</code></td><td>与 args 的情况类似，但打印所选 frame 的局部变量</td></tr>
+<tr><td><code>info locals [-q] [-t type_regexp] [regexp]</code></td><td>与 args 的情况类似，但打印所选 frame 的局部变量</td></tr>
+</tbody></table>
+<p>The command info locals -q -t type_regexp can usefully be combined with the commands frame apply and thread apply. For example, your program might use Resource Acquisition Is Initialization types (RAII) such as lock_something_t: each local variable of type lock_something_t automatically places a lock that is destroyed when the variable goes out of scope. You can then list all acquired locks in your program by doing</p>
+<p>thread apply all -s frame apply all -s info locals -q -t lock_something_t
+or the equivalent shorter form</p>
+<p>tfaas i lo -q -t lock_something_t</p>
+<pre><code class="language-text">(gdb) f
+#0  alloc::alloc::exchange_malloc (size=4, align=4) at /rust/rust/library/alloc/src/alloc.rs:320
+320         match Global.allocate(layout) {
+
+(gdb) list
+315     #[cfg(all(not(no_global_oom_handling), not(test)))]
+316     #[lang = &quot;exchange_malloc&quot;]
+317     #[inline]
+318     unsafe fn exchange_malloc(size: usize, align: usize) -&gt; *mut u8 {
+319         let layout = unsafe { Layout::from_size_align_unchecked(size, align) };
+320         match Global.allocate(layout) {
+321             Ok(ptr) =&gt; ptr.as_mut_ptr(),
+322             Err(_) =&gt; handle_alloc_error(layout),
+323         }
+324     }
+
+(gdb) info args
+size = 4
+align = 4
+
+(gdb) info locals
+layout = core::alloc::layout::Layout {size: 4, align: core::mem::valid_align::ValidAlign (core::mem::valid_align::ValidAlignEnum64::_Align1Shl2)}
+
+(gdb) info args size
+size = 4
+
+(gdb) info locals -t Layout
+layout = core::alloc::layout::Layout {size: 4, align: core::mem::valid_align::ValidAlign (core::mem::valid_align::ValidAlignEnum64::_Align1Shl2)}
+
+(gdb) info args -t usize size
+size = 4
+
+(gdb) info f
+Stack level 0, frame at 0x7fffffffe230:
+ rip = 0x55555555d091 in alloc::alloc::exchange_malloc
+    (/rust/rust/library/alloc/src/alloc.rs:320); saved rip = 0x55555555cc91
+ called by frame at 0x7fffffffe280
+ source language rust.
+ Arglist at 0x7fffffffe1c8, args: size=4, align=4
+ Locals at 0x7fffffffe1c8, Previous frame's sp is 0x7fffffffe230
+ Saved registers:
+  rip at 0x7fffffffe228
+</code></pre>
+<p><code>info f</code> 包括以下内容：</p>
+<ul>
+<li>当前 frame 的地址</li>
+<li>下一个 frame 的地址（被当前 frame 调用的 frame, down）</li>
+<li>上一个 frame 的地址（调用当前 frame 的 frame, up）</li>
+<li>编写此 frame 的源代码的语言</li>
+<li>frame 参数的地址</li>
+<li>frame 局部变量的地址</li>
+<li>调用当前 frame 时的执行地址</li>
+<li>frame 中保存的寄存器</li>
+</ul>
+<h2 id="基本命令-2"><a class="header" href="#基本命令-2">基本命令</a></h2>
+<ol>
+<li>
+<p>关闭 gdb：<code>quit</code> 或者 <code>Ctrl-d</code></p>
+</li>
+<li>
+<p>日志：</p>
+<ul>
+<li><code>help set logging</code> 查看可设置的内容及说明</li>
+<li><code>set logging on</code> 开启日志，将之后命令和内容输出到当前目录下的 gdb.txt 文件（默认不开启日志）</li>
+</ul>
+</li>
+<li>
+<p>运行 shell 命令：</p>
+<ul>
+<li>执行单条：<code>shell command-string</code> 或者 <code>!command-string</code></li>
+<li>执行多条：
+<ul>
+<li>默认以 <code>|</code> 分隔：<code>pipe [command] | shell_command</code> 或者 <code>| [command] | shell_command</code></li>
+<li>自定义分隔符：<code>pipe -d delim command delim shell_command</code> 或者 <code>| -d delim command delim shell_command</code></li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-text">(gdb) pipe p var|wc
+  7      19      80
+(gdb) |p var|wc -l
+7
+(gdb) p /x var
+$4 = {
+  black = 0x90,
+  red = 0xe9,
+  green = 0x179,
+  blue = 0x262,
+  white = 0x3db
+}
+(gdb) ||grep red
+  red =&gt; 0xe9,
+(gdb) | -d ! echo this contains a | char\n ! sed -e 's/|/PIPE/'
+this contains a PIPE char
+(gdb) | -d xxx echo this contains a | char!\n xxx sed -e 's/|/PIPE/'
+this contains a PIPE char!
+</code></pre>
+</li>
+<li>
+<p>重复上一个命令：回车键或者 <code>Ctrl-o</code>。</p>
+<ul>
+<li>有些命令不会被重复，比如 <code>run</code></li>
+<li>对于自定义命令，使用 <code>dont-repeat</code> 可以让该命令不被重复</li>
+<li>对于 <code>list</code> 和 <code>x</code> 命令，重复时会构造新的参数来方便显示源代码或内存</li>
+<li><code>#</code> 开头的内容直到这行结束，表示注释，而不是重复</li>
+<li>按回车键进行重复可以搭配<a href="https://sourceware.org/gdb/current/onlinedocs/gdb/Screen-Size.html#Screen-Size">屏幕尺寸</a>的相关设置来更方便显示长内容</li>
+</ul>
+</li>
+<li>
+<p>修改设置：</p>
+<ul>
+<li>全局设置：<code>set</code></li>
+<li>局部设置：<code>with setting [value] [-- command]</code> 或者 <code>w setting [value] [-- command]</code></li>
+</ul>
+<pre><code class="language-text">(GDB) set print elements 10
+(GDB) print some_array
+$1 = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90...}
+
+# 有些命令支持接受参数来覆盖全局设置
+(GDB) print -elements 10 -- some_array
+$1 = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90...}
+
+# with 可用于临时覆盖全局设置
+(GDB) with print array on -- print some_array
+# 等价于
+(GDB) set print array on
+(GDB) print some_array
+(GDB) set print array off
+# 可以嵌套
+(GDB) with language ada -- with print elements 10
+</code></pre>
+</li>
+<li>
+<p>补全：使用 Tab 键可以补全或者提示可输入的内容。此外，如果命令是明确的，其名称可以被截断。</p>
+<ul>
+<li>比如 <code>info bre TAB</code>、<code>info bre</code>、<code>inf b</code> 与 <code>info breakpoints</code> 等价</li>
+<li>比如 <code>print -object on -pretty off -element unlimited -- *myptr</code> 与 <code>p -o -p 0 -e u -- *myptr</code> 等价</li>
+<li>补全设置：<code>set max-completions limit</code>、<code>set max-completions unlimited</code>、<code>show max-completions</code></li>
+</ul>
+</li>
+<li>
+<p>帮助：</p>
+<ul>
+<li><code>help</code> 或者 <code>h</code>：查看命令的文档介绍</li>
+<li><code>apropos [-v] regexp</code>：从命令名称和文档介绍中，寻找符合正则内容的命令</li>
+<li><code>complete args</code>：从开头补全中寻找命令</li>
+<li><code>info</code> 或者 <code>i</code>：查看程序的状态，详情见 <code>help info</code></li>
+<li><code>show</code> 或者 <code>info set</code>：查看 GDB 的状态（比如 <code>show configuration</code> 查看配置信息），详情见 <code>help show</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="checkpoint"><a class="header" href="#checkpoint">Checkpoint</a></h2>
+<p>checkpoint
+保存被调试程序当前执行状态的快照。该checkpoint命令不带参数，但每个检查点都分配了一个小的整数 id，类似于断点 id。</p>
+<pre><code class="language-text">info checkpoints
+restart checkpoint-id
+delete checkpoint checkpoint-id
+</code></pre>
+<h2 id="显示程序状态"><a class="header" href="#显示程序状态">显示程序状态</a></h2>
+<table><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody>
+<tr><td><code>info program</code></td><td>是否在运行、运行的线程、为什么中止</td></tr>
+<tr><td><code>info inferiors</code></td><td>查看进程、程序的绝对路径</td></tr>
+<tr><td><code>info threads</code></td><td>查看线程、stack 信息</td></tr>
+<tr><td><code>thread apply all bt</code></td><td>查看所有线程的所有 stack</td></tr>
+<tr><td><code>thread apply thread1 thread2... bt</code></td><td>查看指定线程所有 stack</td></tr>
+</tbody></table>
+<pre><code class="language-text">(gdb) info program
+        Using the running image of child Thread 0x7ffff7d88bc0 (LWP 477478).
+Program stopped at 0x55555555d347.
+It stopped at breakpoint 1.
+Type &quot;info stack&quot; or &quot;info registers&quot; for more information.
+
+(gdb) info inferiors
+  Num  Description       Connection           Executable
+* 1    process 477478    2 (native)           /rust/tmp/hi/target/debug/hi
+
+(gdb) info threads
+  Id   Target Id                               Frame
+* 1    Thread 0x7ffff7d88bc0 (LWP 477478) &quot;hi&quot; hi::main () at src/main.rs:2
+
+(gdb) thread apply all bt
+Thread 1 (Thread 0x7ffff7d88bc0 (LWP 477478) &quot;hi&quot;):
+#0  hi::main () at src/main.rs:2
+
+(gdb) thread apply 1 bt
+Thread 1 (Thread 0x7ffff7d88bc0 (LWP 477478) &quot;hi&quot;):
+#0  hi::main () at src/main.rs:2
+</code></pre>
+<h2 id="breakpoints"><a class="header" href="#breakpoints">Breakpoints</a></h2>
+<h3 id="设置断点"><a class="header" href="#设置断点">设置断点</a></h3>
+<table><thead><tr><th>命令（<code>break</code> 可简写为 <code>b</code>）</th><th>说明</th></tr></thead><tbody>
+<tr><td><code>break location</code></td><td>设置断点：location 可以是函数名、行号或指令地址。</td></tr>
+<tr><td><code>break</code></td><td>在所处 stack 的待执行的下一条指令设置断点，即在命令 <code>f</code> 处设置断点</td></tr>
+<tr><td><code>break location [-force-condition] if cond</code></td><td>给定某个位置的表达式，当运行到此断点且满足这个表达式时，中止；如果表达式在该断点处所有位置不合法（比如不存在某个符号），则设置断点失败，但提供 <code>-force-condition</code> 参数可强制设置</td></tr>
+<tr><td><code>tbreak args</code></td><td>与 <code>break</code> 功能一样，但设置的断点是一次性的，当程序第一次在该断点中止之后便被自动删除</td></tr>
+<tr><td><code>hbreak args</code> 和 <code>thbreak args</code></td><td>类似于 <code>break</code> 和 <code>tbreak</code>，但专门针对硬件相关的测试提供</td></tr>
+<tr><td><code>rbreak regex</code> 和 <code>rbreak file:regex</code></td><td>对所有符合正则表达式的函数设置断点，比如 <code>rbreak .</code> 设置把该程序内的所有函数设置断点。注意：<code>foo*</code> 表示 <code>fo</code> 后跟 0 或更多 o；且会隐式对正则内容的前后添加 <code>.*</code>，如果指定以 <code>foo</code> 开头的函数，使用 <code>^foo</code></td></tr>
+<tr><td><code>info breakpoints [list…]</code> 或者 <code>i b ...</code></td><td>查看所有已设置但未删除的 breakpoints, watchpoints, catchpoints</td></tr>
+<tr><td><code>set breakpoint pending auto/on/off</code></td><td>当 GDB 找不到断点位置时，询问/允许/禁止创建待办断点</td></tr>
+<tr><td><code>show breakpoint pending</code></td><td>显示用于创建待办断点的当前行为设置</td></tr>
+</tbody></table>
+<h3 id="删除和禁用"><a class="header" href="#删除和禁用">删除和禁用</a></h3>
+<table><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody>
+<tr><td><code>delete</code></td><td>GDB 会询问你删除所有断点；可缩写成 <code>d</code>、<code>del</code></td></tr>
+<tr><td><code>delete [breakpoints] [list…]</code></td><td>删除某些 breakpoints, watchpoints, catchpoints；比如 <code>d 1-4</code> 删除序号为 1-4 的断点等类型</td></tr>
+<tr><td><code>clear</code></td><td>删除当前 frame 待执行的下一个断点</td></tr>
+<tr><td><code>clear location</code></td><td><a href="https://sourceware.org/gdb/current/onlinedocs/gdb/Specify-Location.html#Specify-Location">location</a> 例子：<code>clear function</code>、<code>clear filename:function</code>、<code>clear linenum</code>、<code>clear filename:linenum</code></td></tr>
+<tr><td><code>disable</code></td><td>关闭所有断点，这不会对程序造成影响，而且断点依然存在</td></tr>
+<tr><td><code>disable [breakpoints] [list…]</code></td><td>关闭某些断点</td></tr>
+<tr><td><code>enable</code></td><td>开启所有断点</td></tr>
+<tr><td><code>enable [breakpoints] [list…]</code></td><td>开启某些断点</td></tr>
+<tr><td><code>enable [breakpoints] once list…</code></td><td>先开启某些断点，在中止程序之后，关闭这些断点</td></tr>
+<tr><td><code>enable [breakpoints] count n list…</code></td><td>先开启某些断点，在中止程序 n 次之后（以倒数形式计数），关闭这些断点</td></tr>
+<tr><td><code>enable [breakpoints] delete list…</code></td><td>先开启某些断点，在中止程序之后，删除这些断点；与 <code>tbreak</code> 命令功能一致</td></tr>
+</tbody></table>
+<h3 id="其他设置"><a class="header" href="#其他设置">其他设置</a></h3>
+<table><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody>
+<tr><td><code>condition bnum expression</code></td><td>对已设置的断点附加中止条件</td></tr>
+<tr><td><code>break ... commands ... end</code></td><td>对某断点中止之后设置运行额外的命令</td></tr>
+<tr><td><code>save breakpoints [filename]</code></td><td>保存已设置的断点；使用 <code>source filename</code> 命令读取和加载断点；及局部变量的表达式的观察点可能无法重新创建，因为可能无法访问观察点有效的上下文</td></tr>
+</tbody></table>
+<h3 id="案例"><a class="header" href="#案例">案例</a></h3>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let a = vec![12, 16];
+    let b = f(a[0]);
+    dbg!(b);
+}
+
+fn f(a: i32) -&gt; i32 { a + 1 }
+</code></pre></pre>
+<pre><code class="language-text">(gdb) b main
+Breakpoint 1 at 0x9347: main. (2 locations)
+(gdb) b f
+Breakpoint 2 at 0x9605: file src/main.rs, line 7.
+(gdb) b main.rs:4 if b &gt; 0
+Breakpoint 3 at 0x93f8: file src/main.rs, line 4.
+(gdb) i b
+Num     Type           Disp Enb Address            What
+1       breakpoint     keep y   &lt;MULTIPLE&gt;
+1.1                         y   0x0000000000009347 in hi::main at src/main.rs:2
+1.2                         y   0x0000000000009640 &lt;main&gt;
+2       breakpoint     keep y   0x0000000000009605 in hi::f at src/main.rs:7
+3       breakpoint     keep y   0x00000000000093f8 in hi::main at src/main.rs:4
+        stop only if b &gt; 0
+(gdb) r
+Starting program: /rust/tmp/hi/target/debug/hi
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library &quot;/lib/x86_64-linux-gnu/libthread_db.so.1&quot;.
+
+Breakpoint 1, 0x000055555555d640 in main ()
+(gdb) c
+Continuing.
+
+Breakpoint 1, hi::main () at src/main.rs:2
+2           let a = vec![12, 16];
+(gdb) c
+Continuing.
+
+Breakpoint 2, hi::f (a=12) at src/main.rs:7
+7       fn f(a: i32) -&gt; i32 { a + 1 }
+(gdb) c
+Continuing.
+
+Breakpoint 3, hi::main () at src/main.rs:4
+4           dbg!(b);
+(gdb) c
+Continuing.
+[src/main.rs:4] b = 13
+[Inferior 1 (process 459778) exited normally]
+</code></pre>
+<p>这里由 <code>b main</code> 导致的多行断点只能删除整个断点 <code>del 1</code>，无法删除一行，但可禁用，比如 <code>disable 1.2</code>。</p>
+<p>当然，也可以禁用整个断点 <code>disable 1</code>，或者禁用多个断点 <code>disable 1.1 1.2</code>。</p>
+<h2 id="watchpoints"><a class="header" href="#watchpoints">Watchpoints</a></h2>
+<p>监测点是一种特殊的断点。</p>
+<h3 id="类型"><a class="header" href="#类型">类型</a></h3>
+<table><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody>
+<tr><td><code>watch expr</code></td><td>当表达式的值被程序 <strong>修改</strong> 的时候终止</td></tr>
+<tr><td><code>rwatch expr</code></td><td>当表达式的值被程序 <strong>读取</strong> 的时候终止</td></tr>
+<tr><td><code>awatch expr</code></td><td>当表达式的值被程序 <strong>读取或者修改</strong> 的时候终止</td></tr>
+</tbody></table>
+<ol>
+<li>这三个命令的支持的完整参数为 <code>watch [-l|-location] expr [thread thread-id] [mask maskvalue] [task task-id]</code></li>
+<li><code>info watchpoints [list…]</code> 或者 <code>i b</code> 命令可查看监测点；使用 <code>del</code> 或 <code>disable</code> 删除或禁用</li>
+<li>无法监听地址，因为地址从不被改变，如果要监听某个地址的值，需要对地址解引用</li>
+<li>GDB 尽可能设置硬件所支持的监测点，因为这样执行起来很快，而且 GDB 能准确地报告修改值的指令</li>
+<li>如果使用软件监测点，那么执行起来更慢，而且在修改值的下一个语句才会报告监测点的情况</li>
+<li>只能基于作用域内的变量的表达式设置监测点，而且当执行离开定义这些变量的块时，GDB 会自动删除这些监视点</li>
+<li>更多细节参考文档：<a href="https://sourceware.org/gdb/current/onlinedocs/gdb/Set-Watchpoints.html#Set-Watchpoints">watchpoints</a></li>
+</ol>
+<h3 id="案例-1"><a class="header" href="#案例-1">案例</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
+</span><span class="boring">   let a = vec![12, 16];
+</span><span class="boring">   let b = f(a[0]);
+</span><span class="boring">   let c = b;
+</span><span class="boring">   dbg!(b);
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn f(mut a: i32) -&gt; i32 {
+    println!(&quot;{a}&quot;);
+    a += 1;
+    a + 1
+}
+</code></pre></pre>
+<ol>
+<li>监视变量</li>
+</ol>
+<p>运行至某个函数内：</p>
+<pre><code class="language-text">(gdb) b f
+Breakpoint 1 at 0xa838: file src/main.rs, line 9.
+(gdb) r
+Starting program: /rust/tmp/hi/target/debug/hi
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library &quot;/lib/x86_64-linux-gnu/libthread_db.so.1&quot;.
+
+Breakpoint 1, hi::f (a=12) at src/main.rs:9
+9           println!(&quot;{a}&quot;);
+</code></pre>
+<p>方式一：使用 <code>watch</code>：</p>
+<pre><code class="language-text">(gdb) watch a
+Hardware watchpoint 2: a
+(gdb) c
+Continuing.
+12
+
+Hardware watchpoint 2: a
+
+Old value = 12
+New value = 13
+hi::f (a=13) at src/main.rs:11
+11          a + 1
+(gdb)
+Continuing.
+
+Watchpoint 2 deleted because the program has left the block in
+which its expression is valid.
+0x000055555555e601 in hi::main () at src/main.rs:3
+3           let b = f(a[0]);
+</code></pre>
+<p>方式二：使用 <code>rwatch</code></p>
+<pre><code class="language-text">(gdb) rwatch a
+Hardware read watchpoint 3: a
+(gdb) c
+Continuing.
+
+Hardware read watchpoint 3: a
+
+Value = 12
+0x0000555555590dbb in core::fmt::num::imp::&lt;impl core::fmt::Display for i32&gt;::fmt ()
+(gdb)
+Continuing.
+12
+
+Hardware read watchpoint 3: a
+
+Value = 12
+0x000055555555e890 in hi::f (a=12) at src/main.rs:10
+10          a += 1;
+(gdb)
+Continuing.
+
+Hardware read watchpoint 3: a
+
+Value = 13
+0x000055555555e8a9 in hi::f (a=13) at src/main.rs:11
+11          a + 1
+(gdb)
+Continuing.
+
+Watchpoint 3 deleted because the program has left the block in
+which its expression is valid.
+0x000055555555e601 in hi::main () at src/main.rs:3
+3           let b = f(a[0]);
+</code></pre>
+<p>方式三：使用 <code>awatch</code></p>
+<pre><code class="language-text">(gdb) awatch a
+Hardware access (read/write) watchpoint 4: a
+(gdb) c
+Continuing.
+
+Hardware access (read/write) watchpoint 4: a
+
+Value = 12
+0x0000555555590dbb in core::fmt::num::imp::&lt;impl core::fmt::Display for i32&gt;::fmt ()
+(gdb)
+Continuing.
+12
+
+Hardware access (read/write) watchpoint 4: a
+
+Value = 12
+0x000055555555e890 in hi::f (a=12) at src/main.rs:10
+10          a += 1;
+(gdb)
+Continuing.
+
+Hardware access (read/write) watchpoint 4: a
+
+Old value = 12
+New value = 13
+hi::f (a=13) at src/main.rs:11
+11          a + 1
+(gdb)
+Continuing.
+
+Hardware access (read/write) watchpoint 4: a
+
+Value = 13
+0x000055555555e8a9 in hi::f (a=13) at src/main.rs:11
+11          a + 1
+(gdb)
+Continuing.
+
+Watchpoint 4 deleted because the program has left the block in
+which its expression is valid.
+0x000055555555e601 in hi::main () at src/main.rs:3
+3           let b = f(a[0]);
+</code></pre>
+<ol start="2">
+<li>监视 <code>Vec</code></li>
+</ol>
+<pre><code class="language-text">(gdb) start
+Temporary breakpoint 1 at 0xa567: file src/main.rs, line 2.
+Starting program: /rust/tmp/hi/target/debug/hi
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library &quot;/lib/x86_64-linux-gnu/libthread_db.so.1&quot;.
+
+Temporary breakpoint 1, hi::main () at src/main.rs:2
+2           let a = vec![12, 16];
+(gdb) n
+3           let b = f(a[0]);
+(gdb) rwatch *a.buf.ptr.pointer.pointer@2
+Hardware read watchpoint 2: *a.buf.ptr.pointer.pointer@2
+(gdb) n
+
+Hardware read watchpoint 2: *a.buf.ptr.pointer.pointer@2
+
+Value = [12, 16]
+
+Hardware read watchpoint 2: *a.buf.ptr.pointer.pointer@2
+
+Value = [12, 16]
+0x000055555555decc in alloc::raw_vec::RawVec&lt;i32, alloc::alloc::Global&gt;::ptr&lt;i32, alloc::alloc::Global&gt; (self=0x7fffffffe188) at /rust/rust/library/alloc/src/raw_vec.rs:225
+225             self.ptr.as_ptr()
+
+...
+
+(gdb)
+No frame is currently executing in specified block
+Command aborted.
+(gdb) del 2
+</code></pre>
+<ol start="3">
+<li>监视自定义表达式：</li>
+</ol>
+<pre><code class="language-text">(gdb) watch a-12&gt;0
+Hardware watchpoint 3: a-12&gt;0
+(gdb) n
+12
+10          a += 1;
+(gdb)
+
+Hardware watchpoint 3: a-12&gt;0
+
+Old value = false
+New value = true
+hi::f (a=13) at src/main.rs:11
+11          a + 1
+</code></pre>
+<h2 id="reverse"><a class="header" href="#reverse">Reverse</a></h2>
+<blockquote>
+<p>src: <a href="https://sourceware.org/gdb/wiki/ReverseDebug">ReverseDebug</a> 
+| <a href="https://www.sourceware.org/gdb/news/reversible.html">reversible</a></p>
+</blockquote>
+<p>步骤：</p>
+<ol>
+<li><code>record</code> 或者 <code>target record</code> 开启记录/回放功能：
+<ul>
+<li>必须在 <code>run</code> 之后使用</li>
+<li>可以在任意一处 frame 开启记录</li>
+<li>只能倒放开启之后所记录的 frame</li>
+<li><code>record stop</code>：结束记录，清除已执行的日志，但不终止子进程，所以可以继续正常调试</li>
+<li><code>record delete</code>：清除已执行的日志，并开始新的执行日志</li>
+<li><code>set record insn-number-max</code>：设置记录执行指令的最大个数，默认为 20W 条，0 时表示无限个数</li>
+<li><code>set record stop-at-limit</code>：当达到最大个数时，若为 on（这是默认行为），则停止并询问；若为 off，则清除旧记录来腾放新记录</li>
+<li><code>info record</code>：显示线程记录的统计信息</li>
+</ul>
+</li>
+<li>相关命令</li>
+</ol>
+<table><thead><tr><th>命令</th><th>缩写</th><th>说明</th></tr></thead><tbody>
+<tr><td><code>reverse-continue</code></td><td><code>rc</code></td><td>倒回到一个终止事件（如断点、观察点、异常）</td></tr>
+<tr><td><code>reverse-next</code></td><td><code>rn</code></td><td>倒回到上一次执行</td></tr>
+<tr><td><code>reverse-nexti</code></td><td><code>rni</code></td><td>倒回一个机器指令，如果这个指令是函数返回，则反向执行</td></tr>
+<tr><td><code>reverse-step</code></td><td><code>rs</code></td><td>倒回到当前执行源码的开始</td></tr>
+<tr><td><code>reverse-stepi</code></td><td></td><td>准确地倒回一个机器指令</td></tr>
+<tr><td><code>reverse-finish</code></td><td></td><td>倒回到当前 frame 执行之前</td></tr>
+<tr><td><code>set exec-direction [forward \| reverse]</code></td><td></td><td>设置接下来的 (continue/step) 等操作是按照向前还是反向</td></tr>
+</tbody></table>
+<ol start="3">
+<li>断点和观察点都依然有效，只不过以反向顺序进行</li>
+<li>反向调试<a href="https://www.sourceware.org/gdb/news/reversible.html">只支持部分平台</a></li>
+</ol>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../dbg.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../TODO.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../dbg.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../TODO.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../editor.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mode-rust.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../theme-dawn.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../theme-tomorrow_night.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../theme/pagetoc.js"></script>
+    </body>
+</html>
