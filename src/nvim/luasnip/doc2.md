@@ -285,105 +285,69 @@ end, {}))
 
 # Loaders
 
-Luasnip is capable of loading snippets from different formats, including both
-the well-established vscode- and snipmate-format, as well as plain lua-files for
-snippets written in lua
-
-Luasnip能够加载不同格式的代码片段，包括成熟的vscode和Snipmate格式，以及用Lua编写的代码片段的纯Lua文件
-
-All loaders share a similar interface:
+LuaSnip 能够加载不同格式的代码片段，包括成熟的 Vscode 和 Snipmate 格式，以及用 Lua 编写片段的纯 Lua 文件。
 
 所有加载器都共享一个类似的接口：
 
 ```lua
-require("luasnip.loaders.from_{vscode,snipmate,lua}").{lazy_,}load(opts:table"nil)
+require("luasnip.loaders.from_{vscode,snipmate,lua}").{lazy_,}load(opts:table|nil)
 ```
 
-where `opts` can contain the following keys:
+其中 `opts` 可以包含以下 key：
 
-其中`opts`可以包含以下密钥：
+| key                           | 类型                     | 默认值                | 说明                                                                |
+|-------------------------------|--------------------------|-----------------------|---------------------------------------------------------------------|
+| `paths`                       | 表或一个逗号分割的字符串 | `runtimepath`[^paths] | 可以使用 `~/`（相对于 `$HOME`）或 `./`（相对于$MYVIMRC）            |
+| `exclude`                     | 表                       | `{}`                  | 排除的语言列表                                                      |
+| `include`                     | 表                       | 所有语言              | 包含的语言列表                                                      |
+| `{override,default}_priority` |                          |                       | 直接传给 [`add_snippets`]，从而改变某组加载片段的优先级（可搭配 `{in,ex}clude` 来缩小片段范围） |
 
-* `paths`: List of paths to load. Can be a table, or a single
-  comma-separated string.
-  The paths may begin with `~/` or `./` to indicate that the path is
-  relative to your `$HOME` or to the directory where your `$MYVIMRC` resides
-  (useful to add your snippets).  
-  If not set, `runtimepath` is searched for
-  directories that contain snippets. This procedure differs slightly for
-  each loader:
-  * `lua`: the snippet-library has to be in a directory named
-    `"luasnippets"`.
-  * `snipmate`: similar to lua, but the directory has to be `"snippets"`.
-  * `vscode`: any directory in `runtimepath` that contains a
-    `package.json` contributing snippets.
-* `exclude`: List of languages to exclude, empty by default.
-* `include`: List of languages to include, includes everything by default.
-* `{override,default}_priority`: These keys are passed straight to the
-  [`add_snippets`](#api-reference)-calls and can therefore change the priority
-  of snippets loaded from some colletion (or, in combination with
-  `{in,ex}clude`, only some of its snippets).
+[^paths]: 每种 loader 的具体路径略有不同：
+- `lua`：片段必须处于 `luasnippets` 目录中
+- `snipmate`：片段必须处于 `snippets` 目录中
+- `vscode`：`runtimepath` 下任何具有 `package.json` 的目录
 
-While `load` will immediately load the snippets, `lazy_load` will defer loading until
-the snippets are actually needed (whenever a new buffer is created, or the
-filetype is changed luasnip actually loads `lazy_load`ed snippets for the
-filetypes associated with this buffer. This association can be changed by
-customizing `load_ft_func` in `setup`: the option takes a function that, passed
-a `bufnr`, returns the filetypes that should be loaded (`fn(bufnr) -> filetypes (string[])`)).
+`load` 会立即加载片段，但 `lazy_load` 会推迟加载到实际需要的片段：无论何时创建新的缓冲区，或者更改文件类型，LuaSnip 
+实际上都会加载与该缓冲区相关联的文件类型的 `lazy_load` 片段。可以通过在 `setup` 中自定义 `load_ft_func`
+来改变这种关联：该选项接受一个函数 `fn(bufnr) -> filetypes (string[])`，该函数传入一个 `bufnr`，返回应该加载的文件类型。
 
-\`paths`：要加载的路径列表。可以是表，也可以是单个逗号分隔的字符串。路径可以以`~/`或`./`开头，表示该路径相对于你的`$HOME`或你的`$MYVIMRC`所在的目录(对于添加你的代码片段非常有用)。如果未设置，则在`runtimepath`中搜索包含片段的目录。对于每个加载器，此过程略有不同：`lua`：代码片断-库必须位于名为`"luasnipets"`的目录中。`Snipmate`：类似于Lua，但目录必须是`"代码片断"`。`vscalde`：`runtime路径`中包含`Package.json`的任何目录。`exclude`：要排除的语言列表，默认情况下为空。`clude`：要包含的语言列表，默认情况下包括所有内容。`{override，default}_priority`：这些键直接传递给`add_snippets`-调用，因此可以更改加载的代码片断的优先级(或与`{in，ex}clude`结合使用，只有一些片段)。虽然`load`会立即加载片段，但`lazy_load`会推迟加载到实际需要的片段(无论何时创建新的缓冲区，或者更改文件类型，luasnip实际上都会加载与该缓冲区相关联的文件类型的`lazy_load`片段。可以通过在`setup`中自定义`load_ft_unc`来改变这种关联：该选项接受一个函数，该函数传递一个`bufnr`，返回应该加载的文件类型(`fn(Bufnr)->filetypes(字符串[])`))。
+所有的 loader 都支持重新加载，所以简单地编辑任何文件贡献的片段都会重新加载它的片段：只有在编辑文件的会话中才会这么做，因为使用
+`BufWritePost` 来重载，而不是一些较低级别的机制。
 
-All of the loaders support reloading, so simply editing any file contributing
-snippets will reload its snippets (only in the session the file was edited in,
-we use `BufWritePost` for reloading, not some lower-level mechanism).
+为了方便地编辑这些文件，Luasnip 提供了一个基于 [`vim.ui.select`] 的对话框，在该对话框中，先选文件类型，然后选文件。
 
-所有的加载器都支持重载，所以简单地编辑任何文件贡献的片段都会重新加载它的片段(只有在编辑文件的会话中，我们使用`BufWritePost`重载，而不是一些较低级别的机制)。
+[`add_snippets`]: #api-reference
 
-For easy editing of these files, Luasnip provides a [`vim.ui.select`-based
-dialog](#edit_snippets) where first the filetype, and then the file can be
-selected.
+[`vim.ui.select`]: #edit_snippets
 
-为了方便地编辑这些文件，Luasnip提供了一个基于`vim.ui.selt`的对话框，在该对话框中，首先是文件类型，然后可以选择文件。
+## 故障排除
 
-# Troubleshooting
+* LuaSnip 使用 `all` 作为全局文件类型。有时其他的代码片段合辑提供另一个叫法的全局文件类型，如 `honza/vim-snippets` 使用 `_`
+  表示全局文件类型。此时，扩展文件类型：
 
-# 故障排除
-
-* Luasnip uses `all` as the global filetype. As most snippet collections don't
-  explicitly target luasnip, they may not provide global snippets for this
-  filetype, but another, like `_` (`honza/vim-snippets`).
-  In these cases, it's necessary to extend luasnip's global filetype with the
-  collection's global filetype:
-  
-  Luasnip使用`all`作为全局文件类型。由于大多数代码段集合并不明确地以luasnip为目标，因此它们可能不会为该文件类型提供全局代码段，而是提供另一个文件类型，如`_`(`honza/vim-snippets`)。在这些情况下，有必要使用集合的全局文件类型扩展luasnip的全局文件类型：
-  
   ```lua
   ls.filetype_extend("all", { "_" })
   ```
-  
-  In general, if some snippets don't show up when loading a collection, a good
-  first step is checking the filetype luasnip is actually looking into (print
-  them for the current buffer via `:lua print(vim.inspect(require("luasnip").get_snippet_filetypes()))`), against the
-  one the missing snippet is provided for (in the collection).  
-  If there is indeed a mismatch, `filetype_extend` can be used to also search
-  the collection's filetype:
-  
-  通常，如果在加载集合时某些代码片段没有出现，那么第一步就是检查luasnip实际正在查找的文件类型(通过`：lua print(vim.inspect(require("luasnip").get_snippet_filetypes()))`)，将它们打印到当前缓冲区)，而不是(在集合中)为缺失的代码片段提供的文件类型。如果确实存在不匹配，也可以使用`filetype_extend`来搜索集合的文件类型：
-  
+
+  所以通常，如果在加载合辑时某些片段没有出现，那么第一步就是检查 LuaSnip 实际正在查找的文件类型
+  `:lua print(vim.inspect(require("luasnip").get_snippet_filetypes()))`，将它们打印到当前缓冲区，而不是在合辑中为缺失的片段提供的文件类型。
+  如果确实存在不匹配，就可以使用 `filetype_extend` 来添加合辑的文件类型：
+
   ```lua
   ls.filetype_extend("<luasnip-filetype>", { "<collection-filetype>" })
   ```
 
-* As we only load `lazy_load`ed snippet on some events, `lazy_load` will
-  probably not play nice when a non-default `ft_func` is used: if it depends on
-  e.g. the cursor-position, only the filetypes for the cursor-position when the
-  `lazy_load`-events are triggered will be loaded. Check
-  [filetype_function's `extend_load_ft`](#filetype_functions) for a solution.
-  
-  由于我们只在某些事件上加载`lazy_load`片段，当使用非默认的`ft_unc`时，`lazy_load`可能不会很好地发挥作用：如果它依赖于例如游标位置，那么当`lazy_load`-事件被触发时，只会加载游标位置的文件类型。查看FILETYPE_Function的`EXTEND_LOAD_ft`以了解解决方案。
+* 由于我们只在某些事件上 `lazy_load` 片段，当使用非默认的 `ft_func` 时，`lazy_load`
+  可能不会很好地发挥作用：比如如果片段依赖于游标位置，那么当 `lazy_load`
+  事件被触发时，只会加载游标位置的文件类型。查看 [`extend_load_ft`] 来了解解决方案。
+
+[`extend_load_ft`]: #filetype_functions
 
 # VSCODE
 
-# VSCODE
+[![asciicast][asciicast]][asciicast]
+
+[asciicast]: https://asciinema.org/a/QH1PLl2TKNy4bHoxidkib0Qfn
 
 As a reference on the structure of these snippet-libraries, see
 [`friendly-snippets`](https://github.com/rafamadriz/friendly-snippets).
