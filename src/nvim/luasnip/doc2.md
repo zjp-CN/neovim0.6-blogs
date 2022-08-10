@@ -283,6 +283,8 @@ end, {}))
 
 ![custom_env](./custom_variable.gif)
 
+https://user-images.githubusercontent.com/25300418/183879980-e7f2814a-de2c-4b97-920e-4a973f190afd.mp4
+
 # Loaders
 
 LuaSnip 能够加载不同格式的代码片段，包括成熟的 Vscode 和 Snipmate 格式，以及用 Lua 编写片段的纯 Lua 文件。
@@ -350,8 +352,7 @@ require("luasnip.loaders.from_{vscode,snipmate,lua}").{lazy_,}load(opts:table|ni
 [asciicast]: https://asciinema.org/a/QH1PLl2TKNy4bHoxidkib0Qfn
 [asciicast-png]: https://asciinema.org/a/QH1PLl2TKNy4bHoxidkib0Qfn.png
 
-https://user-images.githubusercontent.com/25300418/183860901-cd1a5c6e-19a9-425c-b80e-11db3e760c07.mp4
-
+https://user-images.githubusercontent.com/25300418/183879980-e7f2814a-de2c-4b97-920e-4a973f190afd.mp4
 
 As a reference on the structure of these snippet-libraries, see
 [`friendly-snippets`](https://github.com/rafamadriz/friendly-snippets).
