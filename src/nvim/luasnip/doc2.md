@@ -351,7 +351,7 @@ require("luasnip.loaders.from_{vscode,snipmate,lua}").{lazy_,}load(opts:table|ni
 [asciicast-png]: https://asciinema.org/a/QH1PLl2TKNy4bHoxidkib0Qfn.png
 
 <video width="320" height="240" controls>
-    <source src="test.mp4" type="video/mp4">
+    <source src="https://user-images.githubusercontent.com/25300418/183860901-cd1a5c6e-19a9-425c-b80e-11db3e760c07.mp4" type="video/mp4">
 </video>
 
 As a reference on the structure of these snippet-libraries, see
