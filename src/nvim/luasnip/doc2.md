@@ -128,7 +128,7 @@ ls.add_snippets("all", {
 
 # On The Fly
 
-你可以创建不会在所有文件中使用而只在单个会话中使用的代码段。
+你可以创建不会在所有文件中使用而只在单个会话中使用的片段。
 
 这就像获取寄存器中的内容并将其转换为片段：使用以 `$` 为前缀的单词作为输入或副本（这取决于同一单词是否多次出现）。
 
@@ -205,9 +205,11 @@ ls.parser.parse_snippet({trig = "lsp"}, "$1 is ${2|hard,easy,challenging|}")
 
 ![LSP](./lsp.gif)
 
-嵌套占位符 `${1：This is${2：NESTED}` 将转换为 ChoiceNode，并带有：
-- 给定的代码片段 `This is ${1:nested}"`和
+嵌套占位符 `... ${1:this is ${2:nested}} ...` 将转换为 ChoiceNode，并带有：
+- 给定的代码片段 `this is ${1:nested}`和
 - 一个空的插入节点
+
+![LSP](./lsp2.gif)
 
 # 变量
 
@@ -216,7 +218,7 @@ ls.parser.parse_snippet({trig = "lsp"}, "$1 is ${2|hard,easy,challenging|}")
 之所以引入这些代码，是因为 `TM_SELECTED_TEXT` 被设计为与 VScode 
 行为兼容，当片段可以在除选择开始点之外的位置展开时（或对所选文本执行变换时），这可能是违反直觉的。
 
-所有变量都可以在 LSP 解析的代码段之外使用，因为它们的值存储在片段的 `snip.env` 表中：
+所有变量都可以在 LSP 解析的片段之外使用，因为它们的值存储在片段的 `snip.env` 表中：
 
 ```lua
 s("selected_text", f(function(args, snip)
@@ -283,8 +285,6 @@ end, {}))
 
 ![custom_env](./custom_variable.gif)
 
-https://user-images.githubusercontent.com/25300418/183879980-e7f2814a-de2c-4b97-920e-4a973f190afd.mp4
-
 # Loaders
 
 LuaSnip 能够加载不同格式的代码片段，包括成熟的 Vscode 和 Snipmate 格式，以及用 Lua 编写片段的纯 Lua 文件。
@@ -324,7 +324,7 @@ require("luasnip.loaders.from_{vscode,snipmate,lua}").{lazy_,}load(opts:table|ni
 
 ## 故障排除
 
-* LuaSnip 使用 `all` 作为全局文件类型。有时其他的代码片段合辑提供另一个叫法的全局文件类型，如 `honza/vim-snippets` 使用 `_`
+* LuaSnip 使用 `all` 作为全局文件类型。有时其他的代码片段合辑提供另一个叫法的全局文件类型，如 [`honza/vim-snippets`] 使用 `_`
   表示全局文件类型。此时，扩展文件类型：
 
   ```lua
@@ -345,24 +345,13 @@ require("luasnip.loaders.from_{vscode,snipmate,lua}").{lazy_,}load(opts:table|ni
 
 [`extend_load_ft`]: #filetype_functions
 
-# VSCODE
+## Vscode
 
-[![asciicast][asciicast-png]][asciicast]
+[`friendly-snippets`]: https://github.com/rafamadriz/friendly-snippets
 
-[asciicast]: https://asciinema.org/a/QH1PLl2TKNy4bHoxidkib0Qfn
-[asciicast-png]: https://asciinema.org/a/QH1PLl2TKNy4bHoxidkib0Qfn.png
+有关这些代码片断库结构的参考，请参考 [`Friendly-Snippets`]。
 
-https://user-images.githubusercontent.com/25300418/183879980-e7f2814a-de2c-4b97-920e-4a973f190afd.mp4
-
-As a reference on the structure of these snippet-libraries, see
-[`friendly-snippets`](https://github.com/rafamadriz/friendly-snippets).
-
-有关这些代码片断库结构的参考，请参阅`Friendly-Snippets`。
-
-We support a small extension: snippets can contain luasnip-specific options in
-the `luasnip`-table:
-
-我们支持一个小扩展：代码片段可以在`luasnip`-table中包含特定于luasnip的选项：
+LuaSnip 支持一个小扩展：片段可以在 `luasnip` 表中包含特定于 LuaSnip 的选项：
 
 ```json
 "example1": {
@@ -376,14 +365,9 @@ the `luasnip`-table:
 	}
 }
 ```
-
-**Example**:
-
 示例：
 
-`~/.config/nvim/my_snippets/package.json`:
-
-\`~/.config/nvim/my_Snippits/Package.json`：
+`~/.config/nvim/my_snippets/package.json`：
 
 ```json
 {
@@ -409,8 +393,6 @@ the `luasnip`-table:
 
 `~/.config/nvim/my_snippets/snippets/all.json`:
 
-\`~/.config/nvim/my_snippets/snippets/all.json`：
-
 ```json
 {
 	"snip1": {
@@ -432,8 +414,6 @@ the `luasnip`-table:
 
 `~/.config/nvim/my_snippets/lua.json`:
 
-\`~/.config/nvim/my_Snippits/lua.json`：
-
 ```json
 {
 	"snip1": {
@@ -445,9 +425,7 @@ the `luasnip`-table:
 }
 ```
 
-This collection can be loaded with any of
-
-此集合可以加载以下任一项
+此片段合辑可以从以下任一项加载：
 
 ```lua
 -- don't pass any arguments, luasnip will find the collection because it is
@@ -459,21 +437,15 @@ require("luasnip.loaders.from_vscode").lazy_load({paths = "~/.config/nvim/my_sni
 require("luasnip.loaders.from_vscode").load({paths = "./my_snippets"})
 ```
 
-# SNIPMATE
+## SnipMate
 
-# SNIPMATE
+[`honza/vim-snippets`]: https://github.com/honza/vim-snippets
 
-Luasnip does not support the full snipmate format: Only `./{ft}.snippets` and
-`./{ft}/*.snippets` will be loaded. See
-[honza/vim-snippets](https://github.com/honza/vim-snippets) for lots of
-examples.
+Luasnip 不支持完整的 SnipMate 格式，只加载 `./{ft}.snippets` 和 `./{ft}/*.snippets`。
 
-Luasnip不支持完整的Snipmate格式：只会加载`./{ft}.snippets`和`./{ft}/*.snippets`。有关许多示例，请参见honza/vim-Snippits。
+有关许多示例，请参考 [`honza/vim-snippets`]。
 
-Like vscode, the snipmate-format is also extended to make use of some of
-luasnips more advanced capabilities:
-
-与vscode一样，Snipmate格式也进行了扩展，以利用一些更高级的luasnip功能：
+与 Vscode 一样，LuaSnip 也对 SnipMate 格式进行了扩展，来提供更高级的功能：
 
 ```snippets
 priority 2000
@@ -481,13 +453,9 @@ autosnippet options
 	whoa :O
 ```
 
-**Example**:
-
 示例：
 
 `~/.config/nvim/snippets/c.snippets`:
-
-\`~/.config/nvim/Snippits/c.Snippets`：
 
 ```snippets
 # this is a comment
@@ -497,8 +465,6 @@ snippet c c-snippet
 
 `~/.config/nvim/snippets/cpp.snippets`:
 
-\`~/.config/nvim/Snippits/cpp.snippets`：
-
 ```snippets
 extends c
 
@@ -506,9 +472,7 @@ snippet cpp cpp-snippet
 	cpp!
 ```
 
-This can, again, be loaded with any of 
-
-同样，它可以加载以下任何内容
+同样，可以从以下任何一项加载上述片段：
 
 ```lua
 require("luasnip.loaders.from_snipmate").load()
@@ -518,47 +482,30 @@ require("luasnip.loaders.from_snipmate").lazy_load({paths = "~/.config/nvim/snip
 require("luasnip.loaders.from_snipmate").lazy_load({paths = "./snippets"})
 ```
 
-Stuff to watch out for:
-
 需要注意的事项：
 
-* Using both `extends <ft2>` in `<ft1>.snippets` and
-  `ls.filetype_extend("<ft1>", {"<ft2>"})` leads to duplicate snippets.
-* `${VISUAL}` will be replaced by `$TM_SELECTED_TEXT` to make the snippets
-  compatible with luasnip
-* We do not implement eval using \` (backtick). This may be implemented in the
-  future.
+* 同时在 `<ft1>.snippets` 中使用 `extends <ft2>` 和 `ls.filetype_extend("<ft1>", {"<ft2>"})` 会导致片段重复
+* `${VISUAL}` 将被替换为 `$TM_SELECTED_TEXT`，以便与 LuaSnip 统一
+* 未实现用 \` 反引号计算值。这或许在以后会被实现。
 
-# LUA
+## Lua
 
-在`和`ls.filetype_EXTEND("<FT1>"，{"<ft2>"})`中同时使用`EXTENDS<ft2>`会导致重复的代码片断。`${VISUAL}`将被替换为`$TM_SELECTED_TEXT`，以使代码片段与luasnip兼容。我们不使用`(反引号)实现eval。这可能在未来实施。LUA
+除了通过 `addsnippets` 来添加片段之外，还可以将它们存储在单独的文件中并加载所有这些文件。
 
-Instead of adding all snippets via `add_snippets`, it's possible to store them
-in separate files and load all of those.
-The file-structure here is exactly the supported snipmate-structure, e.g.
-`<ft>.lua` or `<ft>/*.lua` to add snippets for the filetype `<ft>`.  
-The files need to return two lists of snippets (either may be `nil`). The
-snippets in the first are regular snippets for `<ft>`, the ones in the
-second are autosnippets (make sure they are enabled in `setup` or `set_config`
-if this table is used).
+这里的文件结构类似于 SnipMate 结构，例如使用 `<ft>.lua` 或 `<ft>/*.lua` 来为文件类型 `<ft>` 
+添加片断。这些文件需要返回两个代码片断列表（两个列表中的任何一个都可以是 `nil`）：
+- 第一个片段是 `<ft>` 的常规片段
+- 第二个片段是自动片段：如果使用此表，请确保在 `setup` 或 `set_config` 中启用它们
 
-不是通过`addsnppets`添加所有代码片段，而是可以将它们存储在单独的文件中并加载所有这些文件。这里的文件结构正是支持的代码段结构，例如`<ft>.lua`或`<ft>/*.lua`，用于为文件类型`<ft>`添加代码片断。这些文件需要返回两个代码片断列表(两个列表中的任何一个都可以是`nil`)。第一个片段是`<ft>`的常规片段，第二个片段是自动片段(如果使用此表，请确保在`setup`或`set_config`中启用它们)。
+[`luasnip.config.snip_env`]: https://github.com/L3MON4D3/LuaSnip/blob/69cb81cf7490666890545fef905d31a414edc15b/lua/luasnip/config.lua#L82-L104
 
-As defining all of the snippet-constructors (`s`, `c`, `t`, ...) in every file
-is rather cumbersome, luasnip will bring some globals into scope for executing
-these files.
-By default, the names from [`luasnip.config.snip_env`](https://github.com/L3MON4D3/LuaSnip/blob/69cb81cf7490666890545fef905d31a414edc15b/lua/luasnip/config.lua#L82-L104) will be used, but it's
-possible to customize them by setting `snip_env` in `setup`.
+在每个文件中定义所有片段构造函数 (`s`、`c`、`t`，...) 相当繁琐，所以 LuaSnip 会将一些全局变量带入执行这些文件的范围。
 
-定义所有代码段构造函数(`s`、`c`、`t`，...)在每个文件都相当繁琐的情况下，luasnip会将一些全局变量带入执行这些文件的范围。默认情况下，将使用`luasnip.config.nip_env`中的名称，但也可以通过在`setup`中设置`snip_env`来自定义名称。
-
-**Example**:
+默认情况下，将使用 [`luasnip.config.snip_env`] 中的名称，但你也可以在 `setup` 中设置 `snip_env` 来自定义名称。
 
 示例：
 
 `~/snippets/all.lua`:
-
-\`~/SNIPPETS/all.lua`：
 
 ```lua
 return {
@@ -568,8 +515,6 @@ return {
 
 `~/snippets/c.lua`:
 
-\`~/SNIPPETS/c.lua`：
-
 ```lua
 return {
 	parse("ctrig", "also loaded!!")
@@ -578,156 +523,126 @@ return {
 }
 ```
 
-Load via 
-
-加载方式
+加载方式：
 
 ```lua
 require("luasnip.loaders.from_lua").load({paths = "~/snippets"})
 ```
 
-# EDIT_SNIPPETS
+## 编辑片段
 
-# 编辑代码段(_S)
+为了方便地编辑当前会话的片断，任何 loader 加载的文件都可以通过
+`require("luasnip.loaders").edit_snippet_files(opts:table|nil)` 快速编辑，它将打开一个 `vim.ui.select`
+对话框，先选择一个文件类型，然后如果有多个关联文件就选择要编辑的关联文件。
 
-To easily edit snippets for the current session, the files loaded by any loader
-can be quickly edited via
-`require("luasnip.loaders").edit_snippet_files(opts:table"nil)`  
-When called, it will open a `vim.ui.select`-dialog to select first a filetype,
-and then (if there are multiple) the associated file to edit.
+![edit-select](./edit-select.gif)
 
-为了方便地编辑当前会话的代码片断，任何加载器加载的文件都可以通过`require("luasnip.loaders").edit_snippet_files(opts:table"nil)`在被调用时快速编辑，它将打开一个`vim.ui.selt`-对话框，首先选择一个文件类型，然后(如果有多个)要编辑的关联文件。
+`opts` 如下设置：
 
-`opts` currently only contains one setting:
+* `format`：`fn(file:string, source_name:string) -> string|nil`。其中 `file` 是文件的路径，`source_name` 是
+  `"lua"`、 `"snipmate"`、 `"vscode"` 中的一个。 如果返回一个字符串，则将其用作项目的标题；如果返回 `nil`
+  就过滤掉该项目。该选项的默认设置是将 `file` 中的一些长字符串（packer 路径和 config 路径）替换为较短的符号名称（`"$plugins"`、
+  `"$CONFIG"`），但可以将其扩展为：
+  *  过滤某些特定来源路径中的文件
+  *  使用符号名称更积极地缩短路径，例如 `"$FRIENDLY_SNIPPETS"`
 
-\`opts`目前仅包含一项设置：
+  例子：隐藏 lua 来源的文件（即隐藏 `*.lua` 文件），并把路径缩短成 `$LuaSnip` 显示出来：
+  ```lua
+  require "luasnip.loaders" .edit_snippet_files {
+    format = function(file, source_name)
+      if source_name == "lua" then return nil
+      else return file:gsub("/root/.config/nvim/luasnippets", "$LuaSnip")
+      end
+    end
+  }
+  ```
+  ![edit-select-format](./edit-select-format.gif)
+* `edit`: `fn(file:string)`。此函数表示打开文件进行编辑。默认值是一个简单的 `vim.cmd("edit " .. file)`
+  （直接换成当前缓冲区），但你可以拆分、在标签或浮动窗口中打开文件，例如
+  `require("luasnip.loaders").edit_snippet_files { edit = function(file) vim.cmd("vs|e " .. file) end }`。
 
-* `format`: `fn(file:string, source_name:string) -> string"nil`  
-  `file` is simply the path to the file, `source_name` is one of `"lua"`,
-  `"snipmate"` or `"vscode"`.  
-  If a string is returned, it is used as the title of the item, `nil` on the
-  other hand will filter out this item.  
-  The default simply replaces some long strings (packer-path and config-path)
-  in `file` with shorter, symbolic names (`"$PLUGINS"`, `"$CONFIG"`), but
-  this can be extended to
-  * filter files from some specific source/path
-  * more aggressively shorten paths using symbolic names, e.g.
-    `"$FRIENDLY_SNIPPETS"`
-* `edit`: `fn(file:string)` This function is supposed to open the file for
-  editing. The default is a simple `vim.cmd("edit " .. file)` (replace the
-  current buffer), but one could open the file in a split, a tab, or a floating
-  window, for example.
-
-One comfortable way to call this function is registering it as a command:
-
-\`格式`：`fn(文件：字符串，源名称：字符串)->字符串"nil``文件`只是文件的路径，`源名称`是`"Lua"`、`"Snipmate"`或`"vscode"`中的一个。如果返回一个字符串，则将其用作项目的标题，反之，`nil`将过滤掉该项目。默认设置只是将`file`中的一些长字符串(打包路径和配置路径)替换为较短的符号名称(`"$plugins"`，`"$CONFIG"`)，但可以将其扩展为过滤某些特定来源/路径中的文件，使用符号名称更积极地缩短路径，例如`"$Friendly_Snippits"``edit`：`fn(FILE：STRING)`这个函数应该打开文件进行编辑。缺省值是一个简单的`vim.cmd("编辑"..文件)`(替换当前缓冲区)，但用户可以在拆分、制表符或浮动窗口中打开文件。调用此函数的一种舒适方法是将其注册为命令：
+调用此函数的一种舒适方法是将其注册成命令：
 
 ```vim
 command! LuaSnipEdit :lua require("luasnip.loaders").edit_snippet_files()
 ```
 
-# SNIPPETPROXY
+# SnippetProxy
 
-# SNIPPETPROXY
+`SnippetProxy` 在 LuaSnip 内部使用，以减少从 SnipMate 库或 Vscode 包加载代码片段的前期成本。
 
-`SnippetProxy` is used internally to alleviate the upfront-cost of
-loading snippets from e.g. a snipmate-library or a vscode-package. This is
-achieved by only parsing the snippet on expansion, not immediately after reading
-it from some file.
-`SnippetProxy` may also be used from lua directly, to get the same benefits:
+这通过在展开时才解析片段来实现的，而不是在从某个文件中读取片段之后立即进行解析。
 
-\`SnippetProxy`在内部使用，以减少从Snipmate库或vscode包加载代码片段的前期成本。这是通过在展开时才解析代码段来实现的，而不是在从某个文件中读取代码段之后立即进行解析。`SnippetProxy`也可以直接从Lua使用，获得相同的好处：
+`SnippetProxy` 也可以直接从 Lua 中使用，获得相同的好处：
 
-This will parse the snippet on startup...
-
-这将在启动时解析代码段...
+这将在启动时解析片段：
 
 ```lua
 ls.parser.parse_snippet("trig", "a snippet $1!")
 ```
 
-... and this will parse the snippet upon expansion.
-
-..。这将在展开时解析代码片段。
+这将在展开时解析代码片段：
 
 ```lua
 local sp = require("luasnip.nodes.snippetProxy")
 sp("trig", "a snippet $1")
 ```
 
-# EXT\_OPTS
+# Ext_Opts
 
-# 外部选项(_O)
+`ext_opts` 可以设置用于标记节点位置的 extmark 的 `opts`（参考
+`nvim_buf_set_extmark`），可以是全局的，也可以是按片段的，也可以是按节点的。
 
-`ext_opts` can be used to set the `opts` (see `nvim_buf_set_extmark`) of the
-extmarks used for marking node-positions, either globally, per-snippet or
-per-node.
-This means that they allow highlighting the text inside of nodes, or adding
-virtual text to the line the node begins on.
+这意味着它们可高亮显示节点内的文本，或将虚拟文本添加到节点开始的行上。
 
-\`ext_opts`可以设置用于标记节点位置的extmark的`opts`(参见`nvim_buf_set_extmark`)，可以是全局的，也可以是按片段的，也可以是按节点的。这意味着它们允许突出显示节点内的文本，或将虚拟文本添加到节点开始的行上。
-
-This is an example for the `node_ext_opts` used to set `ext_opts` of single nodes:
-
-下面是设置单节点`ext_opts`的`node_ext_opts`示例：
+下面是设置单节点 `ext_opts` 的 `node_ext_opts` 示例：
 
 ```lua
 local ext_opts = {
-	-- these ext_opts are applied when the node is active (e.g. it has been
-	-- jumped into, and not out yet).
-	active = 
-	-- this is the table actually passed to `nvim_buf_set_extmark`.
-	{
-		-- highlight the text inside the node red.
-		hl_group = "GruvboxRed"
-	},
-	-- these ext_opts are applied when the node is not active, but
-	-- the snippet still is.
-	passive = {
-		-- add virtual text on the line of the node, behind all text.
-		virt_text = {{"virtual text!!", "GruvboxBlue"}}
-	},
-	-- and these are applied when both the node and the snippet are inactive.
-	snippet_passive = {}
+  -- these ext_opts are applied when the node is active (e.g. it has been
+  -- jumped into, and not out yet).
+  active =
+  -- this is the table actually passed to `nvim_buf_set_extmark`.
+  {
+    -- highlight the text inside the node red.
+    hl_group = "Error"
+  },
+  -- these ext_opts are applied when the node is not active, but
+  -- the snippet still is.
+  passive = {
+    -- add virtual text on the line of the node, behind all text.
+    virt_text = { { "virtual text!!", "WarningMsg" } }
+  },
+  -- and these are applied when both the node and the snippet are inactive.
+  snippet_passive = {}
 }
 
-...
-
-s("trig", {
-	i(1, "text1", {
-		node_ext_opts = ext_opts
-	}),
-	i(2, "text2", {
-		node_ext_opts = ext_opts
-	})
+ls.add_snippets("all", {
+  s("ext_opt", {
+    i(1, "text1", {
+      node_ext_opts = ext_opts
+    }),
+    t { "", "" },
+    i(2, "text2", {
+      node_ext_opts = ext_opts
+    })
+  }),
 })
 ```
 
-In the above example the text inside the insertNodes is higlighted in red while
-inside them, and the virtual text "virtual text!!" is visible as long as the
-snippet is active.
+![ext_opt](./ext_opt.gif)
 
-在上面的例子中，插入节点内的文本以红色高亮显示，而虚拟文本"虚拟文本！！"只要代码段处于活动状态，该代码段就可见。
+在上面的例子中，InsertNode 内的文本以红色高亮显示，而虚拟文本 `virtual text!!` 只要片段处于活动状态，就可见。
 
-It's important to note that `snippet_passive` applies to the states
-`snippet_passive`, `passive`, and `active`, `passive` to `passive` and `active`,
-and `active` only to `active`.
+需要特别注意的是，`snippet_passive` 适用于 `snippet_passive`、 `passive` 和 `active` 状态，
+`passive` 适用于 `passive` 和 `active` 状态， `active`仅适用于 `active` 状态。
 
-需要特别注意的是，`Snipket_PASSIVEVE`适用于`SNIPPET_PASSIVEVE`、`PASSIVEVE`和`Active`状态，`PASSIVVE`适用于`PASSIVEVE`和`Active`状态，`Active`仅适用于`Active`状态。
-
-To disable a key from a "lower" state, it has to be explicitly set to its
-default, e.g. to disable highlighting inherited from `passive` when the node is
-`active`, `hl_group` could be set to `None` in `active`.
-
-若要禁用处于较低状态的key，则必须将其显式设置为默认值，例如当节点为`active`时，若要禁用从`被动`继承的高亮显示，则可以在`active`中将`hl_group`设置为`None`。
+若要禁用处于较低状态的 key，则必须将其显式设置为默认值，例如当节点为 `active` 时，若要禁用从 
+`passive` 继承的高亮显示，则可以在 `active` 中将 `hl_group` 设置为 `None`。
 
 ---
 
-As stated earlier, these `ext_opts` can also be applied globally or for an
-entire snippet. For this it's necessary to specify which kind of node a given
-set of `ext_opts` should be applied to:
-
-如前所述，这些`ext_opts`也可以全局应用，也可以应用于整个代码段。为此，需要指定应将给定的`ext_opts`集应用于哪种节点：
+如前所述，这些`ext_opts`也可以全局应用，也可以应用于整个片段。为此，需要指定应将给定的`ext_opts`集应用于哪种节点：
 
 ```lua
 local types = require("luasnip.util.types")
@@ -749,10 +664,7 @@ ls.config.setup({
 })
 ```
 
-The above applies the given `ext_opts` to all nodes of these types, in all
-snippets...
-
-以上代码将给定的`ext_opts`应用于所有代码片断中这些类型的所有节点...
+以上代码将给定的 `ext_opts` 应用于所有片断中这些类型的所有节点。
 
 ```lua
 local types = require("luasnip.util.types")
@@ -768,24 +680,14 @@ s("trig", { i(1, "text1"), i(2, "text2") }, {
 })
 ```
 
-... while the `ext_opts` here are only applied to the `insertNodes` inside this
-snippet.
-
-..。而这里的`ext_opts`只应用于该代码片断中的`intertNodes`。
+而这里的 `ext_opts` 只应用于该片断中的 IntertNodes。
 
 ---
 
-By default, the `ext_opts` actually used for a node are created by extending the
-`node_ext_opts` with the `effective_child_ext_opts[node.type]` of the parent,
-which are in turn the `child_ext_opts` of the parent extended with the global
-`ext_opts` set in the config.
+默认情况下，节点实际使用的 `ext_opts` （即 `node_ext_opts`）是父节点的 `effective_child_ext_opts[node.type]`，而父节点的
+`child_ext_opts` 又是通过配置中的全局 `ext_opts` 设置的。
 
-默认情况下，节点实际使用的`ext_opts`是通过使用父节点的`Effect_Child_ext_opts[node.type]`扩展`node_ext_opts`创建的，而父节点的`Child_ext_opts`又是通过配置中设置的全局`ext_opts`扩展的父节点的`Child_ext_opts`。
-
-It's possible to prevent both of these merges by passing
-`merge_node/child_ext_opts=false` to the snippet/node-opts:
-
-可以通过向代码段/node-opts传递`merge_node/Child_ext_opts=False`来阻止这两个合并：
+可以向片段或节点 opts 传递 `merge_node/child_ext_opts=false` 来阻止这两个合并：
 
 ```lua
 ls.config.setup({
@@ -816,10 +718,7 @@ s("trig", {
 
 ---
 
-The `hl_group` of the global `ext_opts` can also be set via standard
-highlight-groups:
-
-也可以通过标准的Highlight-Groups设置全局`ext_opts`的`hl_group`：
+也可以通过标准的 Highlight-Groups 设置全局 `ext_opts` 的 `hl_group`：
 
 ```lua
 vim.cmd("hi link LuasnipInsertNodePassive GruvboxRed")
@@ -829,29 +728,18 @@ vim.cmd("hi link LuasnipSnippetPassive GruvboxBlue")
 ls.config.setup({})
 ```
 
-The names for the used highlight groups are
-`"Luasnip<node>{Passive,Active,SnippetPassive}"`, where `<node>` can be any kind of
-node in PascalCase (or "Snippet").
-
-所使用的高亮显示组的名称是`"Luasnip<NODE>{PASSIVE，ACTIVE，SnippetPactive}""，其中`<NODE>`可以是PascalCase中的任何类型的节点(或"代码段")。
+所使用的高亮显示组的名称是 `Luasnip<node>{Passive,Active,SnippetPassive}`，其中
+`node` 是任何节点或片段类型名称，且使用 PascalCase 写法。
 
 ---
 
-One problem that might arise when nested nodes are highlighted, is that the
-highlight of inner nodes should be visible above that of nodes they are nested inside.
+高亮显示嵌套节点时可能出现的一个问题是，节点的高亮应在其内部嵌套的节点之上显示。
 
-突出显示嵌套节点时可能出现的一个问题是，内部节点的突出显示应高于它们所嵌套的节点的突出显示。
+这可以通过 `ext_opts` 中的 `priority` key 来控制。
 
-This can be controlled using the `priority`-key in `ext_opts`. Normally, that
-value is an absolute value, but here it is relative to some base-priority, which
-is increased for each nesting level of snippets.
+通常，该值是一个正值，在这里它是相对于某个基本优先级的，每个片段嵌套级别增加，该值都会增加。
 
-这可以通过`ext_opts`中的`Priority`-key来控制。通常，该值是一个绝对值，但在这里它是相对于某个基本优先级的，对于每个代码段嵌套级别，该值都会增加。
-
-Both the initial base-priority and its' increase and can be controlled using
-`ext_base_prio` and `ext_prio_increase`:
-
-初始基本优先级及其‘都会增加，可以使用`ext_base_prio`和`ext_PRIO_increase`进行控制：
+初始基本优先级及其增加的步长可使用 `ext_base_prio` 和 `ext_prio_increase` 进行控制：
 
 ```lua
 ls.config.setup({
@@ -875,26 +763,19 @@ ls.config.setup({
 })
 ```
 
-Here the highlight of an insertNode nested directly inside a choiceNode is
-always visible on top of it.
+这里，嵌套在 ChoiceNode 中的 IntertNode 的高亮始终在 ChoiceNode 之上显示。
 
-在这里，直接嵌套在choiceNode中的intertNode的突出显示始终在其顶部可见。
+# DocString
 
-# DOCSTRING
+可使用 `snippet:get_docstring()` 查询文档字符串。
 
-# 单点跟踪
+此函数对片段进行求值，就像它正常展开一样，如果片段中的 DynamicNode 依赖于参数节点以外的输入，这可能会有问题。
 
-Snippet-docstrings can be queried using `snippet:get_docstring()`. The function
-evaluates the snippet as if it was expanded regularly, which can be problematic
-if e.g. a dynamicNode in the snippet relies on inputs other than
-the argument-nodes.
-`snip.env` and `snip.captures` are populated with the names of the queried
-variable and the index of the capture respectively
-(`snip.env.TM_SELECTED_TEXT` -> `'$TM_SELECTED_TEXT'`, `snip.captures[1]` ->
-`'$CAPTURES1'`). Although this leads to more expressive docstrings, it can
-cause errors in functions that e.g. rely on a capture being a number:
+`snip.env` 和 `snip.captures` 分别表示被查询变量的名称和捕获的索引：
+* `snip.env.TM_SELECTED_TEXT` -> `$TM_SELECTED_TEXT`
+* `snip.captures[1]` -> `$CAPTURES1`
 
-SNIPPET-DOCSTRING可以使用`SNIPPET：GET_DOCSTRING()`查询。该函数对代码段进行评估，就像它定期展开一样，如果代码段中的DynamicNode依赖于参数节点以外的输入，这可能会有问题。`snip.env`和`snip.captures`分别填充被查询变量的名称和捕获的索引(`snip.env.TM_SELECTED_TEXT`->`‘$TM_SELECTED_TEXT’`，`snip.captures[1]`->`‘$CAPTURES1’`)。尽管这会导致更具表现力的文档字符串，但它可能会在依赖捕获为数字的函数中导致错误：
+尽管以下片段会产生更具描述性的文档字符串，但它可能在依赖于捕获为数字的函数中导致错误：
 
 ```lua
 s({trig = "(%d)", regTrig = true}, {
@@ -904,13 +785,10 @@ s({trig = "(%d)", regTrig = true}, {
 }),
 ```
 
-This snippet works fine because	`snippet.captures[1]` is always a number.
-During docstring-generation, however, `snippet.captures[1]` is `'$CAPTURES1'`,
-which will cause an error in the functionNode.
-Issues with `snippet.captures` can be prevented by specifying `docTrig` during
-snippet-definition:
+这段代码运行良好，因为 `snippet.captures[1]` 始终是一个数字。但是，在文档字符串生成过程中，
+`snippet.captures[1]` 为 `$CAPTURES1`，这将导致在函数节点中出现错误。
 
-这段代码运行得很好，因为`Snippet.captures[1]`始终是一个数字。但是，在文档字符串生成过程中，`snippet.captures[1]`为`‘$CAPTURES1’`，这将导致在函数节点中出现错误。定义片断时指定`docTrig`，可以防止`Snippet.captures`出现问题：
+定义片断时指定 `docTrig`，可防止 `snippet.captures` 出现问题：
 
 ```lua
 s({trig = "(%d)", regTrig = true, docTrig = "3"}, {
@@ -920,15 +798,9 @@ s({trig = "(%d)", regTrig = true, docTrig = "3"}, {
 }),
 ```
 
-`snippet.captures` and `snippet.trigger` will be populated as if actually
-triggered with `3`.
+`snippet.captures` 和 `snippet.trigger` 会被填充数据，如同实际使用 `3` 触发一样。
 
-将填充`snippet.captures`和`snippet.rigger`，如同实际使用`3`触发一样。
-
-Other issues will have to be handled manually by checking the contents of e.g.
-`snip.env` or predefining the docstring for the snippet:
-
-其他问题必须手动处理，方法是检查`snip.env`的内容或预定义代码段的文档字符串：
+其他问题必须手动处理，方法是检查 `snip.env` 的内容或预定义片段的文档字符串：
 
 ```lua
 s({trig = "(%d)", regTrig = true, docstring = "repeatmerepeatmerepeatme"}, {
@@ -938,56 +810,77 @@ s({trig = "(%d)", regTrig = true, docstring = "repeatmerepeatmerepeatme"}, {
 }),
 ```
 
-# DOCSTRING-CACHE
+---
 
-# DOCSTRING缓存
+以一个完整的例子说明 `docTrig` 和 `docstring` 的具体作用，考虑下面三个片段和两个场景：
 
-Although generation of docstrings is pretty fast, it's preferable to not
-redo it as long as the snippets haven't changed. Using
-`ls.store_snippet_docstrings(snippets)` and its counterpart
-`ls.load_snippet_docstrings(snippets)`, they may be serialized from or
-deserialized into the snippets.
-Both functions accept a table structsured like this: `{ft1={snippets}, ft2={snippets}}`. Such a table containing all snippets can be obtained via
-`ls.get_snippets()`.
-`load` should be called before any of the `loader`-functions as snippets loaded
-from vscode-style packages already have their `docstring` set (`docstrings`
-wouldn't be overwritten, but there'd be unnecessary calls).
+```lua
+local doc1 = s({ trig = "doc(%d)", regTrig = true, }, f(
+  function(_args, snip)
+    return string.rep("repeatme ", tonumber(snip.captures[1]))
+  end, {}
+))
+local doc2 = s({ trig = "doc(%d)", regTrig = true, docTrig = "doc2" }, f(
+  function(_args, snip)
+    return string.rep("repeatme ", tonumber(snip.captures[1]))
+  end, {}
+))
+local doc3 = s({ trig = "doc(%d)", regTrig = true, docstring = "repeatmerepeatmerepeatme" }, f(
+  function(_args, snip)
+    return string.rep("repeatme ", tonumber(snip.captures[1]))
+  end, {}
+))
+```
 
-尽管生成文档字符串的速度很快，但只要代码段没有更改，最好不要重做。使用`ls.store_Sniptet_DOCSTRINGS(片断)`及其对应的`ls.Load_Snipet_DOCSTRINGS(片断)`，可以将它们从片断中序列化或反序列化到片断中。这两个函数都接受如下结构的表：`{ft1={Snippits}，ft2={Snippits}}`。这样一个包含所有分片的表可以通过`ls.get_Snippits()`获取。应该在从vscode样式包中加载的作为代码片段的`loader`函数的任何一个已经设置了它们的`DOCSTRIN`之前调用`load`(`DOCSTRINGS`不会被覆盖，但会有不必要的调用)。
+场景一：当放入 `ls.add_snippets("all", { doc1, doc2, doc3 })`，或者等价地，放入 `all.lua` 的返回值：
 
-The cache is located at `stdpath("cache")/luasnip/docstrings.json` (probably
-`~/.cache/nvim/luasnip/docstrings.json`).
+```lua
+return { doc1, doc2, doc3 }
+```
 
-缓存位于`stdpath("缓存")/luasnip/docstrs.json`(可能是`~/.cache/nvim/luasnip/docstrs.json`)。
+都能输入 `doc2` 后顺利展开成 `repeatme repeatme `。
 
-# EVENTS
+场景二：生成文档字符串
 
-# 事件
+```lua
+local function gen(snip)
+  return table.concat(snip:get_docstring())
+end
 
-Events can be used to react to some action inside snippets. These callbacks can
-be defined per-snippet (`callbacks`-key in snippet constructor) or globally
-(autocommand).
+return {
+  parse("doc_two", gen(doc2)),   -- 直接生成 `repeatme repeatme `
+  parse("doc_three", gen(doc3)), -- 直接生成 `repeatmerepeatmerepeatme`
+  doc1, -- doc2 和 doc3 在这行与情况一是一样的：按照输入的数字展开
+}
+```
 
-事件可用于对代码段中的某些操作做出反应。这些回调可以按代码片断定义(代码片断构造函数中的`allacks`-key)，也可以全局定义(自动命令)。
+![docstring](./docstring.gif)
 
-`callbacks`: `fn(node[, event_args]) -> event_res`  
-All callbacks get the `node` associated with the event and event-specific
-optional arguments, `event_args`.
-`event_res` is only used in one event, `pre_expand`, where some properties of
-the snippet can be changed.
 
-\`回调`：`fn(node[，EVENT_ARGS])->EVENT_RES`所有回调都会获取与该事件关联的`node`以及事件具体可选参数`EVENT_ARGS`。`Event_res`只在一个事件`pre_expand`中使用，在该事件中可以更改分片的某些属性。
+# DocString-Cache
 
-`autocommand`:
-Luasnip uses `User`-events. Autocommands for these can be registered using
+尽管生成文档字符串的速度很快，但只要片段没有更改，最好不要重做。
 
-\`AutoCommand`：Luasnip使用`User`-Events。这些命令的自动命令可以使用以下命令注册
+使用 `ls.store_snippet_docstrings(snippets)` 及其对应的 `ls.load_snippet_docstrings(snippets)`
+可将它们从片断中序列化或反序列化到片断。这两个函数都接受如下结构的表： 
+`{ft1={snippets}，ft2={snippets}}`。这样一个包含所有片段的表可通过 `ls.get_snippets()` 得到。
+
+应该在所有 `loader` 函数之前调用 `load`，因为来自 Vscode 的片段已经设置好了自己的文档字符串。尽管 docstring
+不会被覆盖，但不这么做的话会导致不必要的调用。
+
+缓存位于 `stdpath("cache")/luasnip/docstrings.json`，很可能是 `~/.cache/nvim/luasnip/docstrings.json`。
+
+# Event
+
+Event 可用于对片段中的某些操作做出反应。这些回调可以按片断定义（片断构造函数中的 `callbacks` key），也可以全局定义（自动命令）。
+
+* `callbacks`：`fn(node[, event_args]) -> event_res`。所有回调函数获得相关事件的节点和可选参数 `event_args`。
+  * `event_res`：只用于 `pre_expand` 事件，片段中某些属性可被改变。
+* `autocommand`： LuaSnip 使用 `User` 事件，可以使用以下方式注册自动命令：
 
 ```vim
 au User SomeUserEvent echom "SomeUserEvent was triggered"
 ```
-
-or
 
 或
 
@@ -998,40 +891,28 @@ vim.api.nvim_create_autocommand("User", {
 })
 ```
 
-The node and `event_args` can be accessed through `require("luasnip").session`:
-
-节点和`Event_args`可以通过`Required("luasnip").ession`访问：
+节点和 `event_args` 可通过 `require("luasnip").session` 访问：
 
 * `node`: `session.event_node`
 * `event_args`: `session.event_args`
 
 **Events**:
 
-\`node`：`会话.事件节点``事件_args`：`会话.事件_args`事件：
+| event           | `User-event`                             | `event_args`                    | 描述                                     |
+|-----------------|------------------------------------------|---------------------------------|------------------------------------------|
+| `enter/leave`   | `Luasnip<Node>{Enter,Leave}`[^Node-case] | 无                              | 进入或离开节点时调用，比如在片断中跳跃时 |
+| `change_choice` | `LuasnipChangeChoice`                    | 无                              | ChoiceNode 中改变选择时                  |
+| `pre_expand`    | `LuasnipPreExpand`                       | 见[^event_args]|片段展开前调用。允许修改文本。<br>展开的位置会调整，因此片段在已有的文本的位置上展开 |
 
-* `enter/leave`: Called when a node is entered/left (for example when jumping
-  around in a snippet).  
-  `User-event`: `"Luasnip<Node>{Enter,Leave}"`, with `<Node>` in
-  PascalCase, e.g. `InsertNode` or `DynamicNode`.  
-  `event_args`: none
-* `change_choice`: When the active choice in a choiceNode is changed.  
-  `User-event`: `"LuasnipChangeChoice"`  
-  `event_args`: none
-* `pre_expand`: Called before a snippet is expanded. Modifying text is allowed,
-  the expand-position will be adjusted so the snippet expands at the same
-  position relative to existing text.  
-  `User-event`: `"LuasnipPreExpand"`  
-  `event_args`:
-  * `expand_pos`: `{<row>, <column>}`, position at which the snippet will be
-    expanded. `<row>` and `<column>` are both 0-indexed.
-    `event_res`:
-  * `env_override`: `map string->(string[]"string)`, override or extend the
-    snippet's environment (`snip.env`).
+[^Node-case]: `Node` 使用 PascalCase，如`InsertNode`、 `DynamicNode`
 
-A pretty useless, beyond serving as an example here, application of these would
-be printing e.g. the nodes' text after entering:
+[^event_args]: `pre_expand` 的 `event_args` 有三种：
+* `expand_pos`：`{<row>, <column>}`，片段的展开位置，两个都从 0 开始。
+* `event_res`
+* `env_override`：`map string->(string[]"string)` 覆盖或添加片段环境 `snip.env`
 
-\`Enter/Leave`：当进入/离开节点时调用(例如，在代码片断中跳跃时)。`User-Event`：`"Luasnip<Node>{Enter，Leave}"`，PascalCase中有`<Node>`，如`InsertNode`或`DynamicNode`。`Event_args`：nere`change_choice`：当choiceNode中的活动选项发生变化时。`User-Event`：`"LuasnipChangeChoice"``Event_args`：nere`pre_expand`：在分片展开前调用。允许修改文本，将调整展开位置，以便代码段在与现有文本相同的位置展开。`User-Event`：`"LuasnipPreExpand"``Event_args`：`Expand_pos`：`{<行>，<列>}`分片展开的位置。`<行>`和`<列>`都是0索引。`Event_res`：`env_override`：`map字符串->(字符串[]"字符串)`，覆盖或扩展代码段的环境(`snip.env`)。除了作为示例，这些方法的一个非常无用的应用程序是在输入后打印节点的文本：
+
+一个没什么用的用例如下，它在进入节点文本后打印内容：
 
 ```lua
 vim.api.nvim_create_autocmd("User", {
@@ -1043,9 +924,7 @@ vim.api.nvim_create_autocmd("User", {
 })
 ```
 
-or some information about expansions
-
-或有关扩展的一些信息
+或有关展开的一些信息：
 
 ```lua
 vim.api.nvim_create_autocmd("User", {
@@ -1065,276 +944,27 @@ vim.api.nvim_create_autocmd("User", {
 })
 ```
 
-# CLEANUP
+结合以上两个事件和下面的片段：
+
+```lua
+ls.add_snippets("all", {
+  s("ternary", {
+    -- equivalent to "${1:cond} ? ${2:then} : ${3:else}"
+    i(1, "cond"), t(" ? "), i(2, "then"), t(" : "), i(3, "else")
+  })
+}
+```
+
+跳转至最后，打印的内容：
+
+```text
+expanding snippet ${1:cond} ? ${2:then} : ${3:else}$0 at 0:0
+cond
+then
+else
+```
 
 # 清理
 
-The function ls.cleanup()  triggers the `LuasnipCleanup` user-event, that you can listen to do some kind
-of cleaning in your own snippets, by default it will  empty the snippets table and the caches of
-the lazy_load.
+函数 `ls.cleanup()` 触发 `LuasnipCleanup` user-event，从而你能对自己的片段进行某种清理，默认情况下会清空片断表和 lazy_Load 的缓存。
 
-函数ls.leanup()触发`LuasnipCleanup`用户事件，可以监听在自己的代码片断中进行某种清理，默认情况下会清空代码片断表和lazy_Load的缓存。
-
-# API-REFERENCE
-
-# API-参考
-
-`require("luasnip")`:
-
-\`Required("luasnip")`：
-
-* `add_snippets(ft:string or nil, snippets:list or table, opts:table or nil)`:
-  Makes `snippets` (list of snippets) available in `ft`.  
-  If `ft` is `nil`, `snippets` should be a table containing lists of snippets,
-  the keys are corresponding filetypes.  
-  `opts` may contain the following keys:
-  
-  \`Add_Snipets`(ft：字符串或nil，Snippits：list或table，opts：table或nil)`：在`ft`中提供`Snippets`(片断列表)。如果`ft`为`nil`，则`Snippets`应该是一个包含分片列表的表，键是对应的文件类型。`opts`可以包含以下密钥：
-  
-  * `type`: type of `snippets`, `"snippets"` or `"autosnippets"`.
-  * `key`: Key that identifies snippets added via this call.  
-    If `add_snippets` is called with a key that was already used, the snippets
-    from that previous call will be removed.  
-    This can be used to reload snippets: pass an unique key to each
-    `add_snippets` and just re-do the `add_snippets`-call when the snippets have
-    changed.
-  * `override_priority`: set priority for all snippets.
-  * `default_priority`: set priority only for snippets without snippet-priority.
-* `clean_invalidated(opts: table or nil) -> bool`: clean invalidated snippets
-  from internal snippet storage.  
-  Invalidated snippets are still stored, it might be useful to actually remove
-  them, as they still have to be iterated during expansion.
-  
-  \`type`：类型为`Snippets`、`"Snippits"`或`"autosnipets"`。`key`：标识本次调用添加的分片的key。如果使用已使用的密钥调用`add_snippets`，则会删除上次调用的代码片段。这可以用来重新加载代码片断：给每个`Add_Snippets`传递一个唯一的键，当代码片断发生变化时，只需重新执行`Add_Snippets`-调用。`over_Priority`：为所有代码片断设置优先级。`Default_Priority`：只为没有代码段优先级的代码片断设置优先级。`lean_valaliated(opts：table或nil)->bool`：从内部代码片断存储中清除无效的代码片断。无效的代码段仍然存储，实际删除它们可能很有用，因为它们在展开过程中仍然需要迭代。
-  
-  `opts` may contain:
-  
-  \`opts`可以包含：
-  
-  * `inv_limit`: how many invalidated snippets are allowed. If the number of
-    invalid snippets doesn't exceed this threshold, they are not yet cleaned up.
-    
-    \`inv_limit`：允许多少个失效的分片。如果无效代码片断的数量没有超过此阈值，则它们尚未被清理。
-    
-    A small number of invalidated snippets (\<100) probably doesn't affect
-    runtime at all, whereas recreating the internal snippet storage might.
-    
-    少量无效的代码段(<100)可能根本不会影响运行时，而重新创建内部代码段存储可能会影响运行时。
-
-* `get_id_snippet(id)`: returns snippet corresponding to id.
-  
-  \`Get_id_Snipet(Id)`：返回id对应的代码片断。
-
-* `in_snippet()`: returns true if the cursor is inside the current snippet.
-  
-  \`in_snipet()`：如果光标位于当前代码段内，则返回True。
-
-* `jumpable(direction)`: returns true if the current node has a
-  next(`direction` = 1) or previous(`direction` = -1), e.g. whether it's
-  possible to jump forward or backward to another node.
-  
-  \`Jumpable(Direction`)`：如果当前节点有下一个(`Direction`=1)或上一个(`Direction`=-1)，例如是否可以向前或向后跳转到另一个节点，则返回TRUE。
-
-* `jump(direction)`: returns true if the jump was successful.
-  
-  \`Jump(Direction)`：如果跳转成功，则返回TRUE。
-
-* `expandable()`: true if a snippet can be expanded at the current cursor position.
-  
-  \`expandable()`：如果片段可以在当前光标位置展开，则为True。
-
-* `expand()`: expands the snippet at(before) the cursor.
-  
-  \`Expand()`：展开游标处(之前)的代码片断。
-
-* `expand_or_jumpable()`: returns `expandable() or jumpable(1)` (exists only
-  because commonly, one key is used to both jump forward and expand).
-  
-  \`EXPAND_OR_JUPABLE()`：返回`EXPANDABLE()或JUPABLE(1)`(通常只有一个键同时用于向前跳转和扩展)。
-
-* `expand_or_locally_jumpable()`: same as `expand_or_jumpable()` except jumpable
-  is ignored if the cursor is not inside the current snippet.
-  
-  \`EXPAND_OR_LOCAL_JUPABLE()`：与`EXPAND_OR_JUPABLE()`相同，不同之处在于如果光标不在当前代码段内，则忽略JUPABLE。
-
-* `expand_or_jump()`: returns true if jump/expand was succesful.
-  
-  \`扩展或跳转()`：如果跳转/扩展成功，则返回TRUE。
-
-* `expand_auto()`: expands the autosnippets before the cursor (not necessary
-  to call manually, will be called via autocmd if `enable_autosnippets` is set
-  in the config).
-  
-  \`EXPAND_AUTO()`：在游标之前展开自动片段(如果在配置中设置了`Enable_autosnippets`，则不需要手动调用，将通过aucmd调用)。
-
-* `snip_expand(snip, opts)`: expand `snip` at the current cursor position.
-  `opts` may contain the following keys:
-  
-  \`SNIP_EXPAND(SNIP，OPTS)`：在当前光标位置展开`Snip`。`opts`可以包含以下密钥：
-  
-  * `clear_region`: A region of text to clear after expanding (but before
-    jumping into) snip. It has to be at this point (and therefore passed to
-    this function) as clearing before expansion will populate `TM_CURRENT_LINE`
-    and `TM_CURRENT_WORD` with wrong values (they would miss the snippet trigger)
-    and clearing after expansion may move the text currently under the cursor
-    and have it end up not at the `i(1)`, but a `#trigger` chars to it's right.
-    The actual values used for clearing are `from` and `to`, both (0,0)-indexed
-    byte-positions.
-    If the variables don't have to be populated with the correct values, it's
-    safe to remove the text manually.
-  * `expand_params`: table, for overriding the `trigger` used in the snippet
-    and setting the `captures` (useful for pattern-triggered nodes where the
-    trigger has to be changed from the pattern to the actual text triggering the
-    node).
-    Pass as `trigger` and `captures`.
-  * `pos`: position (`{line, col}`), (0,0)-indexed (in bytes, as returned by
-    `nvim_win_get_cursor()`), where the snippet should be expanded. The
-    snippet will be put between `(line,col-1)` and `(line,col)`. The snippet
-    will be expanded at the current cursor if pos is nil.
-  * `jump_into_func`: fn(snippet) -> node:
-    Callback responsible for jumping into the snippet. The returned node is
-    set as the new active node, ie. it is the origin of the next jump.
-    The default is basically this
-    ```lua
-    function(snip)
-    	-- jump_into set the placeholder of the snippet, 1
-    	-- to jump forwards.
-    	return snip:jump_into(1)
-    ```
-    
-    While this can be used to only insert the snippet
-    ```lua
-    function(snip)
-    	return snip.insert_nodes[0]
-    end
-    ```
-  
-  `opts` and any of its parameters may be nil.
-  
-  \`Clear_Region`：在展开(但在跳入)Snip之前要清除的文本区域。它必须在这一点上(并因此传递给此函数)，因为展开前清除会用错误的值填充`TM_CURRENT_LINE`和`TM_CURRENT_WORD`(它们将错过片段触发器)，并且展开后清除可能会移动光标下当前的文本，并使其不在`i(1)`处结束，而是`#rigger`字符位于其右侧。用于清除的实际值是`from`和`to`，这两个值都是(0，0)索引的字节位置。如果变量不必填充正确的值，则可以手动删除文本。`扩展_参数`：表，用于覆盖代码片段中使用的`触发器`并设置`captures`(对于模式触发的节点非常有用，其中触发器必须从模式更改为触发节点的实际文本)。传入`rigger`和`captures`.`pos`：位置(`{line，ol}`)，(0，0)-已索引(单位为字节，由`nvim_win_get_Cursor()`返回)，其中需要展开代码片段。代码片段将放在`(line，ol-1)`和`(line，ol)`之间。如果pos为空，则在当前光标处展开分片。`JUMP_INTO_Func`：fn(分片)->节点：负责跳入分片的回调。返回的节点被设置为新的活动节点，即。它是下一跳的起点。缺省值基本上是这个，而这个只能用来插入片段`opts`，并且它的任何参数都可以为空。
-
-* `get_active_snip()`: returns the currently active snippet (not node!).
-  
-  \`Get_Active_Snip()`：返回当前活动的代码片段(不是节点！)。
-
-* `choice_active()`: true if inside a choiceNode.
-  
-  \`CHOICE_ACTIVE()`：如果在ChoiceNode内，则为True。
-
-* `change_choice(direction)`: changes the choice in the innermost currently
-  active choiceNode forward (`direction` = 1) or backward (`direction` = -1).
-  
-  \`CHANGE_CHOICE(Direction`)`：将当前最活跃的choiceNode中的选项向前(`Direction`=1)或向后(`Direction`=-1)更改。
-
-* `unlink_current()`: removes the current snippet from the jumplist (useful
-  if luasnip fails to automatically detect e.g. deletion of a snippet) and
-  sets the current node behind the snippet, or, if not possible, before it.
-  
-  \`unlink_Current()`：从跳转列表中删除当前代码段(如果luasnip无法自动检测到代码段的删除等情况时非常有用)，并将当前节点设置在代码段之后，如果不可能，则设置在其之前。
-
-* `lsp_expand(snip_string, opts)`: expand the lsp-syntax-snippet defined via
-  `snip_string` at the cursor.
-  `opts` can have the same options as `opts` in `snip_expand`.
-  
-  \`LSP_EXPAND(SNIP_STRING，OPTS)`：在游标位置展开`SNIP_STRING`定义的LSP-SYNTAX-SNIPPET。`opts`可以与`snip_expand`中的`opts`选项相同。
-
-* `active_update_dependents()`: update all function/dynamicNodes that have the
-  current node as an argnode (will actually only update them if the text in any
-  of the argnodes changed).
-  
-  \`ACTIVE_UPDATE_Dependents()`：更新将当前节点作为argnode的所有函数/DynamicNode(实际上只会在任何argnode中的文本发生更改时更新它们)。
-
-* `available()`: return a table of all snippets defined for the current
-  filetypes(s) (`{ft1={snip1, snip2}, ft2={snip3, snip4}}`).
-  
-  \`Available()`：返回当前文件类型定义的所有代码片断的表(`{ft1={Snip1，Snip2}，ft2={Snip3，Snip4}}`)。
-
-* `exit_out_of_region(node)`: checks whether the cursor is still within the
-  range of the snippet `node` belongs to. If yes, no change occurs, if No, the
-  snippet is exited and following snippets' regions are checked and potentially
-  exited (the next active node will be the 0-node of the snippet before the one
-  the cursor is inside.
-  If the cursor isn't inside any snippet, the active node will be the last node
-  in the jumplist).
-  If a jump causes an error (happens mostly because a snippet was deleted), the
-  snippet is removed from the jumplist.
-  
-  \`EXIT_OUT_OF_REGION(Node)`：检查光标是否仍在`node`所属的代码片段范围内。如果是，则不发生任何更改；如果为否，则退出该摘录，并检查随后的摘录区域并可能退出(下一个活动节点将是该摘录的0节点，在光标所在的节点之前)。如果光标不在任何代码段内，则活动节点将是跳转列表中的最后一个节点)。如果跳转导致错误(主要是因为删除了代码段)，则会从跳转列表中删除该代码段。
-
-* `store_snippet_docstrings(snippet_table)`: Stores the docstrings of all
-  snippets in `snippet_table` to a file
-  (`stdpath("cache")/luasnip/docstrings.json`).
-  Calling `store_snippet_docstrings(snippet_table)` after adding/modifying
-  snippets and `load_snippet_docstrings(snippet_table)` on startup after all
-  snippets have been added to `snippet_table` is a way to avoide regenerating
-  the (unchanged) docstrings on each startup.
-  (Depending on when the docstrings are required and how luasnip is loaded,
-  it may be more sensible to let them load lazily, e.g. just before they are
-  required).
-  `snippet_table` should be laid out just like `luasnip.snippets` (it will
-  most likely always *be* `luasnip.snippets`).
-  
-  \`store_Sniptet_DOCSTRINGS(SNIPPET_TABLE)`：将`SNIPPET_TABLE`中所有分片的文档字符串保存到一个文件(`stdpath("缓存")/luasnip/docstrs.json`)中。在添加/修改代码片断后调用`store_Snipet_DOCSTRINGS(SNIPPET_TABLE)`，并在将所有代码片断添加到`SNIPPET_TABLE`后，在启动时调用`Load_SNIPPET_DOCSTRINGS(SNIPPET_TABLE)`，这样可以避免每次启动时重新生成(未改变的)文档字符串。(根据何时需要文档字符串和如何加载luasnip，让它们延迟加载可能更明智，例如，就在需要它们之前)。`SNIPPET_TABLE`应该像`luasnip.snippets`一样布局(它很可能始终是`luasnip.snippets`)。
-
-* `load_snippet_docstrings(snippet_table)`: Load docstrings for all snippets
-  in `snippet_table` from `stdpath("cache")/luasnip/docstrings.json`.
-  The docstrings are stored and restored via trigger, meaning if two
-  snippets for one filetype have the same(very unlikely to happen in actual
-  usage), bugs could occur.
-  `snippet_table` should be laid out as described in `store_snippet_docstrings`.
-  
-  \`加载_片断_文档字符串(片断_表格)`：将`片断_表格`中所有片断的文档字符串从`stdpath("缓存")/luasnip/docstrs.json`加载。文档字符串通过触发器存储和恢复，这意味着如果一种文件类型的两个片段具有相同的内容(在实际使用中不太可能发生)，则可能会发生错误。`SNIPPET_TABLE`应按照`store_SNIPPET_DOCSTRINGS`中的说明进行布局。
-
-* `unlink_current_if_deleted()`: Checks if the current snippet was deleted,
-  if so, it is removed from the jumplist. This is not 100% reliable as
-  luasnip only sees the extmarks and their beginning/end may not be on the same
-  position, even if all the text between them was deleted.
-  
-  \`UNLINK_CURRENT_IF_DELETED()`：检查当前代码段是否已删除，如果已删除，则将其从跳转列表中删除。这不是100%可靠的，因为luasnip只看到扩展标记，并且它们的开始/结束可能不在同一位置，即使它们之间的所有文本都被删除了。
-
-* `filetype_extend(filetype:string, extend_filetypes:table of string)`: Tells
-  luasnip that for a buffer with `ft=filetype`, snippets from
-  `extend_filetypes` should be searched as well. `extend_filetypes` is a
-  lua-array (`{ft1, ft2, ft3}`).
-  `luasnip.filetype_extend("lua", {"c", "cpp"})` would search and expand c-and
-  cpp-snippets for lua-files.
-  
-  \`FILETYPE_EXTEND(FILETYPE：STRING，EXTEND_FILETYPE：TABLE of STRING)`：告诉luasnip对于带有`ft=filetype`的缓冲区，也应该搜索来自`EXTEND_FILETYPS`的片段。`end_filetypes`为Lua数组(`{ft1，ft2，ft3}`)。`luasnip.filetype_EXTEND("lua"，{"c"，"cpp"})`将搜索并展开lua文件的c和cpp片段。
-
-* `filetype_set(filetype:string, replace_filetypes:table of string):` Similar
-  to `filetype_extend`, but where *append* appended filetypes, *set* sets them:
-  `filetype_set("lua", {"c"})` causes only c-snippets to be expanded in
-  lua-files, lua-snippets aren't even searched.
-  
-  \`filetype_set(FILETYPE：STRING，REPLACE_FILETYPE：TABLE OF STRING)：`类似于`FILETYPE_EXTEND`，但在附加的文件类型后，SET设置它们：`FILETYPE_SET("lua"，{"c"})`导致在lua文件中只展开c片断，甚至不搜索Lua片断。
-
-* `cleanup()`: clears all snippets. Not useful for regular usage, only when
-  authoring and testing snippets.
-  
-  \`leanup()`：清除所有代码段。仅在创作和测试代码段时使用，对于常规使用没有用处。
-
-* `refresh_notify(ft:string)`: Triggers an autocmd that other plugins can hook
-  into to perform various cleanup for the refreshed filetype.
-  Useful for signaling that new snippets were added for the filetype `ft`.
-  
-  \`REFRESH_NOTIFY(ft：STRING)`：触发一个Autocmd，其他插件可以挂接到它来对刷新的文件类型执行各种清理。用于发出为文件类型‘ft`添加了新代码段的信号。
-
-* `set_choice(indx:number)`: Changes to the `indx`th choice.
-  If no `choiceNode` is active, an error is thrown.
-  If the active `choiceNode` doesn't have an `indx`th choice, an error is
-  thrown.
-  
-  \`set_CHOICE(indx：number)`：更改为`indx`第个选项。如果没有`choiceNode`处于活动状态，则抛出错误。如果活动的`choiceNode`没有`indx`选项，则会抛出错误。
-
-* `get_current_choices() -> string[]`: Returns a list of multiline-strings
-  (themselves lists, even if they have only one line), the `i`th string
-  corresponding to the `i`th choice of the currently active `choiceNode`.
-  If no `choiceNode` is active, an error is thrown.
-  
-  \`Get_CURRENT_CHOOICES()->STRING[]`：返回多行字符串的列表(即使它们只有一行也会列出)，`i`字符串对应于当前活动的`choiceNode`的`i`选择。如果没有`choiceNode`处于活动状态，则抛出错误。
-
-Not covered in this section are the various node-constructors exposed by
-the module, their usage is shown either previously in this file or in
-`Examples/snippets.lua` (in the repo).
-
-本节不介绍模块公开的各种节点构造函数，它们的用法在前面的文件或`Examples/Snippets.lua`(在repo中)中显示。

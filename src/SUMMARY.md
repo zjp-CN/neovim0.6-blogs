@@ -14,6 +14,7 @@
     - [LuaSnip](./nvim/luasnip.md)
         - [文档（上）](./nvim/luasnip/doc1.md)
         - [文档（下）](./nvim/luasnip/doc2.md)
+        - [文档（API）](./nvim/luasnip/doc-api.md)
     - [Rust 相关](./nvim/rust-related.md)
         - [bacon](./nvim/rust/bacon.md)
     - [IDE](./IDE.md)
