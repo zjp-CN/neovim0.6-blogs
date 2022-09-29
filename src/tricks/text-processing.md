@@ -215,13 +215,15 @@ use {'junegunn/fzf', run = function() vim.fn['fzf#install']() end }
 use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
 ```
 
-在支持 lsp 的许多地方也会使用到 quickfix，所以这是一个十分通用的插件：
+在支持 lsp 的许多地方也会使用到 quickfix：
 
 * `vim.diagnostic.setqflist`、`vim.diagnostic.setloclist`
 * `vim.lsp.buf.references()`
 * `vim.lsp.buf.document_symbol()`
 * `vim.lsp.buf.incoming_calls()`
 * `vim.lsp.buf.outgoing_calls()`
+
+所以 nvim-bqf 还算一个相对通用的插件。使用 telescope 还是 nvim-bqf 来管理 quickfix 完全是个人偏好。
 
 ## 自动化文本处理
 
