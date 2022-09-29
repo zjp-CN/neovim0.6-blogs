@@ -2,17 +2,17 @@
 
 > 大部分内容整理自：[Advanced Vim topics, tips and tricks (by *Mark McDonnell*)](https://www.integralist.co.uk/posts/vim/)
 
-注意：表格中的 `\|` 实际只需要输入 `|`。
-
 ## `global`
 
-| 命令                                 | 功能                                                                                |
-|--------------------------------------|-------------------------------------------------------------------------------------|
-| `:global/pattern/excmd`              | 对满足 `pattern` 的行文本进行 `excmd` 操作                                          |
-| `:g/^foo/d` 等价于 `:g/^foo/norm dd` | 删除 `foo` 开头的行（`g = global`，`d = delete`）                                   |
-| `:g!/^foo/d`                         | 删除不是 `foo` 开头的行                                                             |
-| `:g/foo/norm @q \| update`           | 对含 `foo` 的行执行 `@q` 宏，并更新文本[^norm]                                      |
-| `:g/^/exe "norm \<s-j>"`             | 每两行进行合并[^exe]                                                                |
+| 命令                                 | 功能                                              |
+|--------------------------------------|---------------------------------------------------|
+| `:global/pattern/excmd`              | 对满足 `pattern` 的行文本进行 `excmd` 操作        |
+| `:g/^foo/d` 等价于 `:g/^foo/norm dd` | 删除 `foo` 开头的行（`g = global`，`d = delete`） |
+| `:g!/^foo/d`                         | 删除不是 `foo` 开头的行                           |
+| `:g/foo/norm @q \| update`[^table]   | 对含 `foo` 的行执行 `@q` 宏，并更新文本[^norm]    |
+| `:g/^/exe "norm \<s-j>"`             | 每两行进行合并[^exe]                              |
+
+[^table]: 注意：表格中的 `\|` 实际只需要输入 `|`。
 
 [^norm]: [`norm`](https://vimhelp.org/various.txt.html#%3Anormal) 表示模拟 norm 模式下操作
 
@@ -58,13 +58,25 @@
 首先启用历史记录快捷键：
 
 ```lua
+-- 更多可设置快捷键的功能见 `:help telescope.actions`
+local action = require 'telescope.actions'
 local mappings = {
   i = { -- insert mode
     -- 上翻/下翻历史搜索记录：所有功能共享历史搜索记录
-    ["<C-Down>"] = require('telescope.actions').cycle_history_next,
-    ["<C-Up>"] = require('telescope.actions').cycle_history_prev,
-    -- 更多可设置快捷键的功能见 `:help telescope.actions`
+    ["<C-Down>"] = action.cycle_history_next,
+    ["<C-Up>"] = action.cycle_history_prev,
   },
+  n = { -- normal mode
+    ["t"] = action.toggle_all, -- 反选所有
+    ["T"] = action.drop_all, -- 取消所有
+    ["d"] = action.delete_buffer,
+    -- `<C-q>` clear + send all to quickfix
+    -- `<A-q>` clear + send the selected to quickfix
+    -- `a` add the selected to quickfix
+    -- `A` add all to quickfix
+    ["a"] = action.add_selected_to_qflist,
+    ["A"] = action.add_to_qflist,
+  }
 }
 require'telescope'.setup {
   defaults = {
@@ -81,13 +93,19 @@ nnoremap ,l <cmd>Telescope live_grep<cr>
 nnoremap ,g <cmd>Telescope grep_string<cr>
 nnoremap ,b <cmd>Telescope buffers<cr>
 nnoremap ,d <cmd>Telescope diagnostics<cr>
+nnoremap ,q <cmd>Telescope quickfix<cr>
+nnoremap ,Q <cmd>Telescope quickfixhistory<cr>
 ```
 
-Normal 模式中按 `,g` 会在当前项目中搜索当前光标下的内容，弹出 telescope 对话框之后：
+Normal 模式中按 `,g` 会在当前项目中搜索当前光标下的内容，弹出 telescope 对话框之后[^telescope-keymap]：
 * 按 `<Ctrl-q>` 将所有内容发送至 quickfix
 * 或者按 `<Tab>`/`<Shift-Tab>` 多选，按 `<Alt-q>` 把选择的内容发送至 quickfix
 
-使用 `<Ctrl-/>` 和 `?` 显示对话框在 Insert/Normal 模式下的快捷键映射。
+对 quickfix 处理内容常常使用 `cdo`（见下文）。此外 telescope 可直接操作已有的 quickfix：
+* 按 `,q` 在 telescope 中打开 quickfix
+* 基于已有的 quickfix 创建新的 quickfix，见上述发送至 quickfix 的两种步骤（这相当于从 quickfix 列表中减少条目）
+* 映射 `action.add_selected_to_qflist` 和 `action.add_to_qflist` 等函数提供了添加新项至 quickfix 列表的功能
+* 按 `,Q` 可查看和转到历史 quickfix 列表
 
 `live_grep` 和 `grep_string` 使用的是 `telescope.defaults.vimgrep_arguments`，默认为 [`rg`] 且进行了一些配置，所以：
 * 直接支持正则而无需额外转义，注意这使用了 Rust [`regex`] 库的正则语法
@@ -95,6 +113,9 @@ Normal 模式中按 `,g` 会在当前项目中搜索当前光标下的内容，�
 * 如果你想使用其他搜索程序，可以自行配置 `defaults = { vimgrep_arguments = { ... }, mappings = mappings, }`
 
 更多功能见 telescope 的[帮助文档][telescope-doc]。
+
+[^telescope-keymap]: 使用 `<Ctrl-/>` 和 `?` 显示对话框在 Insert/Normal 模式下的快捷键映射。
+
 
 [`rg`]: https://github.com/BurntSushi/ripgrep
 [`regex`]: https://docs.rs/regex/latest/regex/#syntax
@@ -160,19 +181,19 @@ Normal 模式中按 `,g` 会在当前项目中搜索当前光标下的内容，�
 
 ## `nvim-bqf`
 
-[`nvim-bqf`] 插件的功能是增强 quickfix 的预览、删除、筛选操作[^add]，通常的步骤：
+除了上述的 [`telescope`] 之外，你还可以使用 [`nvim-bqf`] 插件来增强 quickfix 的预览、删除、筛选操作[^add]，通常的步骤：
 1. 通过 `<Tab>` 和 `<S-Tab>` 选择/反选一条或几条
 2. `zn` 或 `zN` 将选中或没选中的条目创建新的 quickfix
 
 [`nvim-bqf`]: https://github.com/kevinhwang91/nvim-bqf
 
-[^cccdd]: 增加到 quickfix 可使用 vim 内置的 vimgrepadd / lvimgrepadd / grepadd / lgrepadd 命令。
+[^add]: 增加到 quickfix 可使用 vim 内置的 vimgrepadd / lvimgrepadd / grepadd / lgrepadd 命令。
 
 然后使用 `<c|l>[f]do` 对新的 quickfix 进行批量处理。
 
 在预览方面，可搭配 `nvim-treesitter` 提供高亮。
 
-在筛选方便，可搭配 `fzf` 提供模糊查询：
+在筛选方便，可搭配 `fzf` 提供模糊查询[^fzf]：
 * `zf` 调出 fzf
 * `<Tab>` 进行选择/反选
   * 在 visual mode 下可使用 `<Tab>` 多条选择/反选
@@ -180,6 +201,8 @@ Normal 模式中按 `,g` 会在当前项目中搜索当前光标下的内容，�
   * 使用 `z<Tab>` 清除所有选择
 * `zn` 把选中的条目创建新的 quickfix
   * `zN` 把未选中的条目创建新的 quickfix
+
+[^fzf]: [`telescope`] 的搜索框直接支持模糊查询和预览，所以可以完全无需 `nvim-bqf` + `fzf`。
 
 ```lua
 -- 安装 nvim-bqf
@@ -218,7 +241,7 @@ nvim -u NONE --headless\
  +":qa"
 ```
 
-```bash
+```diff
 [a.md] aa.md  b.md
 :!git diff
 diff --git a/a.md b/a.md
