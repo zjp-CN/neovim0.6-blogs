@@ -37,7 +37,7 @@
 
 - [技巧]()
     - [netrw](./tricks/netrw.md) 
-    - [查询、替换与删除](./tricks/text-processing.md)
+    - [quickfix 与文本处理](./tricks/text-processing.md)
     - [杂项](./tricks/misc.md)
 
 - [Git]()

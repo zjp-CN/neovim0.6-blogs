@@ -1,4 +1,4 @@
-# 查询、替换与删除
+# quickfix 与文本处理
 
 > 大部分内容整理自：[Advanced Vim topics, tips and tricks (by *Mark McDonnell*)](https://www.integralist.co.uk/posts/vim/)
 
