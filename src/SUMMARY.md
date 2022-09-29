@@ -37,6 +37,11 @@
 
 - [技巧]()
     - [netrw](./tricks/netrw.md) 
+    - [查询、替换与删除](./tricks/text-processing.md)
+    - [杂项](./tricks/misc.md)
+
+- [Git]()
+    - [delta: git diff 的替代](./git/delta.md)
 
 - [调试](./dbg.md)
     - [基本概念](./dbg/notions.md)
